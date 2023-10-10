@@ -1,4 +1,4 @@
-package com.pietrantuono.posts
+package com.pietrantuono.posts.presentation
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

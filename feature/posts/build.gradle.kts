@@ -39,6 +39,10 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:model"))
+    implementation(project(":core:network"))
+
     // Hilt.
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

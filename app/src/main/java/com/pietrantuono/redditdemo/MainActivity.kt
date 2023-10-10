@@ -5,9 +5,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.pietrantuono.redditdemo.ui.theme.RedditDemoTheme
-import dagger.hilt.EntryPoint
 import dagger.hilt.android.AndroidEntryPoint
-import  com.pietrantuono.posts.PostsViewModel
+import  com.pietrantuono.posts.presentation.PostsViewModel
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {

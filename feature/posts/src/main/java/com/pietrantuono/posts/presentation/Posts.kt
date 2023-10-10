@@ -1,4 +1,4 @@
-package com.pietrantuono.posts
+package com.pietrantuono.posts.presentation
 
 import androidx.compose.runtime.Composable
 
