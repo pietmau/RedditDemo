@@ -1,18 +1,11 @@
-import java.io.FileInputStream
-import java.util.Properties
-
-val apikeyPropertiesFile = rootProject.file("apikey.properties")
-val apikeyProperties = Properties()
-apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
-
-@Suppress("DSL_SCOPE_VIOLATION")
+@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
 android {
-    namespace = "com.pietrantuono.network"
+    namespace = "com.pietrantuono.mylibrary"
     compileSdk = 33
 
     defaultConfig {
@@ -20,7 +13,6 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
-        buildConfigField("String", "CLIENT_ID", apikeyProperties.getProperty("CLIENT_ID"))
     }
 
     buildTypes {
@@ -36,25 +28,13 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
-    buildFeatures.buildConfig = true
 }
 
 dependencies {
-    implementation(project(":core:model"))
-    implementation(project(":core:common"))
-
-    // Retrofit.
-    implementation(libs.retrofit2)
-    implementation(libs.converter.gson)
-    implementation(libs.logging.interceptor)
-
-    // DI.
-    implementation(libs.javax.inject)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
     implementation(libs.material)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
