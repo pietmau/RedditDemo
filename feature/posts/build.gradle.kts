@@ -1,5 +1,7 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    kotlin("kapt")
+    alias(libs.plugins.hilt)
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
@@ -37,6 +39,12 @@ android {
 }
 
 dependencies {
+    // Hilt.
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
+
+
     implementation(libs.activity.compose)
     implementation(platform(libs.compose.bom))
 
@@ -46,4 +54,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+}
+kapt {
+    correctErrorTypes = true
 }
