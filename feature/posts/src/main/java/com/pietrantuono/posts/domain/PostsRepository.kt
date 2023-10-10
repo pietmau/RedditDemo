@@ -4,5 +4,5 @@ import com.pietrantuono.model.reddit.Post
 
 interface PostsRepository {
 
-    suspend fun getPosts(): List<Post>
+    suspend fun getPosts(subReddit: String): List<Post>
 }

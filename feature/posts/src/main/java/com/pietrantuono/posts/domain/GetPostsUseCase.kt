@@ -7,11 +7,7 @@ import javax.inject.Inject
 
 class GetPostsUseCase @Inject constructor(private val repository: PostsRepository) : UseCase<Params, List<Post>> {
 
-    override suspend fun invoke(params: Params): List<Post> {
-        TODO("Not yet implemented")
-    }
+    override suspend fun invoke(params: Params) = repository.getPosts(params.subReddit)
 
-    sealed class Params {
-        object Empty : Params()
-    }
+    data class Params(val subReddit: String)
 }
