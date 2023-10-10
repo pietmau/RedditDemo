@@ -1,4 +1,4 @@
-package com.pietrantuono.network.api.reddit
+package com.pietrantuono.posts.data
 
 import com.pietrantuono.common.Mapper
 import com.pietrantuono.model.reddit.Image

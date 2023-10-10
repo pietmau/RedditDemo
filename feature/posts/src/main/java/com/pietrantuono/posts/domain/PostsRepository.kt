@@ -2,7 +2,7 @@ package com.pietrantuono.posts.domain
 
 import com.pietrantuono.model.reddit.Post
 
-interface GetPostsRepository {
+interface PostsRepository {
 
     suspend fun getPosts(): List<Post>
 }
