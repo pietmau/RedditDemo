@@ -1,13 +1,8 @@
-import java.io.FileInputStream
-import java.util.Properties
-
-val apikeyPropertiesFile = rootProject.file("apikey.properties")
-val apikeyProperties = Properties()
-apikeyProperties.load(FileInputStream(apikeyPropertiesFile))
-
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    kotlin("kapt")
     alias(libs.plugins.com.android.application)
+    alias(libs.plugins.hilt)
     alias(libs.plugins.org.jetbrains.kotlin.android)
 }
 
@@ -26,7 +21,6 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-        buildConfigField("String", "CLIENT_ID", apikeyProperties.getProperty("CLIENT_ID"))
     }
 
     buildTypes {
@@ -57,6 +51,10 @@ android {
 }
 
 dependencies {
+    // Hilt.
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
 
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
@@ -73,4 +71,7 @@ dependencies {
     androidTestImplementation(libs.ui.test.junit4)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
+}
+kapt {
+    correctErrorTypes = true
 }

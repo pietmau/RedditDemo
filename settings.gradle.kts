@@ -16,3 +16,6 @@ dependencyResolutionManagement {
 rootProject.name = "RedditDemo"
 include(":app")
 include(":feature:posts")
+include(":core:model")
+include(":core:network")
+include(":core:common")
