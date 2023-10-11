@@ -9,5 +9,5 @@ class GetPostsUseCase @Inject constructor(private val repository: PostsRepositor
 
     override suspend fun invoke(params: Params) = repository.getPosts(params.subReddit)
 
-    data class Params(val subReddit: String)
+    data class Params(val subReddit: String = "pics")
 }

@@ -15,8 +15,8 @@ abstract class RedditViewModel<UiState, UiEvent>(
 ) : ViewModel(), Consumer<UiEvent> {
 
     @Suppress("PropertyName")
-    abstract val _uiState: MutableStateFlow<UiState>
-    val viewState: Flow<UiState>
+    protected abstract val _uiState: MutableStateFlow<UiState>
+    val uiState: Flow<UiState>
         get() = _uiState
 
     protected fun launch(block: suspend CoroutineScope.() -> Unit) {
@@ -26,6 +26,14 @@ abstract class RedditViewModel<UiState, UiEvent>(
             } catch (e: Exception) {
                 logger.logException(e)
             }
+        }
+    }
+
+    protected fun updateState(reducer: UiState.() -> UiState) {
+        val currentState = _uiState.value ?: return
+        val newState = currentState.reducer()
+        if (newState != currentState) {
+            _uiState.value = newState
         }
     }
 }
