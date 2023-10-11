@@ -3,10 +3,12 @@ package com.pietrantuono.redditdemo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -30,11 +32,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RedditDemoTheme {
-                val navController = rememberNavController()
-                NavHost(
-                    navController = navController,
-                    startDestination = POSTS
-                ) {
+                RedditNavHost(startDestination = POSTS) { controller ->
                     composable(route = POSTS) {
                         val viewModel = hiltViewModel<PostsViewModel>()
                         val uiState by viewModel.uiState.collectAsStateWithLifecycle(UiState())
@@ -42,7 +40,7 @@ class MainActivity : ComponentActivity() {
                             viewModel.accept(event)
                         }
                         LaunchedEffect(uiState.navDestination) {
-                            navController.navigateTo(uiState.navDestination)
+                            controller.navigateTo(uiState.navDestination)
                             viewModel.accept(NavigationPerformed)
                         }
                     }
@@ -60,5 +58,16 @@ private fun NavHostController.navigateTo(navDestination: NavigationDestination) 
     when (navDestination) {
         is PostDetails -> navigate("$DETAIL/${navDestination.postId}")
         else -> Unit
+    }
+}
+
+@Composable
+private fun RedditNavHost(startDestination: String, block: NavGraphBuilder.(NavHostController) -> Unit) {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = startDestination
+    ) {
+        block(navController)
     }
 }
