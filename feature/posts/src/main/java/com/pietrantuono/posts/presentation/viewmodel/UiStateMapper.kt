@@ -12,6 +12,7 @@ class UiStateMapper @Inject constructor(): Mapper<Post, PostUiModel> {
             title = input.title,
             author = input.author,
             created = input.created,
+            thumbnail = input.thumbnail,
             images = input.images.map { image ->
                 ImageUiModel(
                     url = image.url,

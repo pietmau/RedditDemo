@@ -1,6 +1,7 @@
 package com.pietrantuono.model.reddit
 
 data class Post(
+    val id: String,
     val kind: String? = null,
     val name: String? = null,
     val subreddit: String? = null,
@@ -11,10 +12,9 @@ data class Post(
     val createdUtc: Long? = null,
     val images: List<Image> = emptyList(),
     val subredditId: String? = null,
-    val id: String? = null,
     val author: String? = null,
     val numComments: Int? = null,
     val permalink: String? = null,
     val url: String? = null,
-    val score: Int? = null
+    val score: Int? = null,
 )
