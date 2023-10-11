@@ -4,6 +4,11 @@ import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.posts.domain.GetPostsUseCase
 import com.pietrantuono.posts.domain.GetPostsUseCase.Params
+import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
+import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
+import com.pietrantuono.posts.presentation.viewmodel.UiEvent.GetPosts
+import com.pietrantuono.posts.presentation.viewmodel.UiEvent.NavigationPerformed
+import com.pietrantuono.posts.presentation.viewmodel.UiEvent.OnPostClicked
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlin.coroutines.CoroutineContext
@@ -21,13 +26,23 @@ class PostsViewModel @Inject constructor(
 
     override fun accept(event: UiEvent) {
         when (event) {
-            is UiEvent.GetPosts -> getInitialPosts()
+            is GetPosts -> getInitialPosts()
+            is OnPostClicked -> navigateToPost(event.postId)
+            is NavigationPerformed -> navigationPerformed()
         }
+    }
+
+    private fun navigationPerformed() {
+        updateState { copy(navigationDestination = None) }
+    }
+
+    private fun navigateToPost(postId: String) {
+        updateState { copy(navigationDestination = PostDetails(postId)) }
     }
 
     private fun getInitialPosts() {
         launch {
-            val posts = useCase.invoke(Params())
+            val posts = useCase.execute(Params())
             updateState { copy(posts = posts.map { mapper.map(it) }) }
         }
     }

@@ -13,5 +13,4 @@ class RetrofitPostsRepository @Inject constructor(
 
     override suspend fun getPosts(subReddit: String): List<Post> = networkDataEntityMapper.map(redditApi.getNewPosts(subReddit))
 
-
 }

@@ -1,6 +1,8 @@
 package com.pietrantuono.posts.presentation.viewmodel
 
-data class UiState(val posts: List<PostUiModel> = emptyList())
+import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
+
+data class UiState(val posts: List<PostUiModel> = emptyList(), val navigationDestination: NavigationDestination = None)
 
 data class PostUiModel(
     val id: String,
@@ -16,3 +18,8 @@ data class ImageUiModel(
     val width: Int? = null,
     val height: Int? = null,
 )
+
+sealed class NavigationDestination {
+    object None : NavigationDestination()
+    data class PostDetails(val postId: String) : NavigationDestination()
+}

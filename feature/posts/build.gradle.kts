@@ -60,7 +60,13 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.coil)
 
+    // Tests.
     testImplementation(libs.junit)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.truth)
+    testImplementation(libs.kotlinx.coroutines.test)
+
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
 }
