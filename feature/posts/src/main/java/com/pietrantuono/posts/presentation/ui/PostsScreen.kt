@@ -19,7 +19,7 @@ fun PostsScreen(uiState: UiState = UiState(), events: (UiEvent) -> Unit = {}) {
 
     LazyColumn {
         items(items = uiState.posts, // TODO, add error and laoding
-            key = { it.id }) { post ->
+            key = { it.id ?: "" }) { post ->
             Text(
                 modifier = Modifier.clickable { },
                 text = post.title ?: ""

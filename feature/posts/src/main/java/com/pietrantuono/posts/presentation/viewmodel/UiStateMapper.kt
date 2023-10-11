@@ -2,8 +2,9 @@ package com.pietrantuono.posts.presentation.viewmodel
 
 import com.pietrantuono.common.Mapper
 import com.pietrantuono.model.reddit.Post
+import javax.inject.Inject
 
-class UiStateMapper : Mapper<Post, PostUiModel> {
+class UiStateMapper @Inject constructor(): Mapper<Post, PostUiModel> {
 
     override fun map(input: Post) =
         PostUiModel(

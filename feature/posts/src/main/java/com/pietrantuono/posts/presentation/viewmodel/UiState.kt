@@ -7,7 +7,7 @@ data class PostUiModel(
     val images: List<ImageUiModel> = emptyList(),
     val author: String?,
     val created: Long?,
-    val id: String,
+    val id: String?,
 )
 
 data class ImageUiModel(
