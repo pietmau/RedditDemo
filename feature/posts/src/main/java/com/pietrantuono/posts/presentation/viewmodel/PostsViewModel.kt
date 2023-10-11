@@ -33,11 +33,11 @@ class PostsViewModel @Inject constructor(
     }
 
     private fun navigationPerformed() {
-        updateState { copy(navigationDestination = None) }
+        updateState { copy(navDestination = None) }
     }
 
     private fun navigateToPost(postId: String) {
-        updateState { copy(navigationDestination = PostDetails(postId)) }
+        updateState { copy(navDestination = PostDetails(postId)) }
     }
 
     private fun getInitialPosts() {

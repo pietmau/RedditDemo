@@ -33,7 +33,7 @@ class PostsViewModelTest {
         viewModel.uiState.test {
             val state = awaitItem()
             assertThat(state.posts).isEmpty()
-            assertThat(state.navigationDestination).isEqualTo(None)
+            assertThat(state.navDestination).isEqualTo(None)
         }
     }
 
@@ -55,7 +55,7 @@ class PostsViewModelTest {
             viewModel.accept(OnPostClicked(ID))
 
             // Then
-            assertThat(expectMostRecentItem().navigationDestination).isEqualTo(PostDetails(ID))
+            assertThat(expectMostRecentItem().navDestination).isEqualTo(PostDetails(ID))
         }
     }
 
@@ -67,7 +67,7 @@ class PostsViewModelTest {
             viewModel.accept(NavigationPerformed)
 
             // Then
-            assertThat(expectMostRecentItem().navigationDestination).isEqualTo(None)
+            assertThat(expectMostRecentItem().navDestination).isEqualTo(None)
         }
     }
 

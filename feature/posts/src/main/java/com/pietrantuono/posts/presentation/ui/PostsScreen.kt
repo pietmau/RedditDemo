@@ -12,6 +12,7 @@ import androidx.compose.ui.res.dimensionResource
 import com.pietrantuono.home.R
 import com.pietrantuono.posts.presentation.viewmodel.UiEvent
 import com.pietrantuono.posts.presentation.viewmodel.UiEvent.GetPosts
+import com.pietrantuono.posts.presentation.viewmodel.UiEvent.OnPostClicked
 import com.pietrantuono.posts.presentation.viewmodel.UiState
 
 @Composable
@@ -21,7 +22,7 @@ fun PostsScreen(uiState: UiState = UiState(), events: (UiEvent) -> Unit = {}) {
             items = uiState.posts,
             key = { it.id }) { post ->
             RedditCard(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable { events(OnPostClicked(post.id)) },
                 post = post
             )
         }
