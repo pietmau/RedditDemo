@@ -1,9 +1,10 @@
-package com.pietrantuono.posts.data
+package com.pietrantuono.posts
 
 import com.pietrantuono.common.Mapper
-import com.pietrantuono.model.reddit.Image
-import com.pietrantuono.model.reddit.Post
 import com.pietrantuono.network.entity.reddit.NetowrkRedditResponseEntity
+import com.pietrantuono.network.entity.reddit.NetworkDataEntity
+import com.pietrantuono.posts.model.reddit.Image
+import com.pietrantuono.posts.model.reddit.Post
 import javax.inject.Inject
 
 class NetworkDataEntityMapper @Inject constructor() : Mapper<NetowrkRedditResponseEntity, List<Post>> {
@@ -19,11 +20,13 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetowrkRedditRespon
                 created = data.created,
                 images = data.preview?.images?.flatMap { it.resolutions }?.map {
                     Image(
-                        url = it.url, width = it.width, height = it.height
+                        url = it.url,
+                        width = it.width,
+                        height = it.height
                     )
                 } ?: emptyList(),
                 subredditId = data.subredditId,
-                id = data.id ?: "", // TODO
+                id = data.id,
                 author = data.author,
                 numComments = data.numComments,
                 permalink = data.permalink,
@@ -33,7 +36,6 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetowrkRedditRespon
         }
     }
 
-    private fun filterNullPosts(input: NetowrkRedditResponseEntity) =
-        input.data?.posts?.mapNotNull { post -> post.data?.let { data -> post.kind to data } } ?: emptyList()
+    private fun filterNullPosts(input: NetowrkRedditResponseEntity): List<Pair<String?, NetworkDataEntity>> =
+        input.data.posts.mapNotNull { post -> post.data?.let { data -> post.kind to data } } // TODO CLEAN THIS UP
 }
-

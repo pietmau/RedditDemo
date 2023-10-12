@@ -2,8 +2,7 @@ package com.pietrantuono.posts.presentation.viewmodel
 
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
-import com.pietrantuono.posts.domain.GetPostsUseCase
-import com.pietrantuono.posts.domain.GetPostsUseCase.Params
+import com.pietrantuono.posts.GetPostsUseCase
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
 import com.pietrantuono.posts.presentation.viewmodel.UiEvent.GetPosts
@@ -42,7 +41,7 @@ class PostsViewModel @Inject constructor(
 
     private fun getInitialPosts() {
         launch {
-            val posts = useCase.execute(Params())
+            val posts = useCase.execute(GetPostsUseCase.Params())
             updateState { copy(posts = posts.map { mapper.map(it) }) }
         }
     }

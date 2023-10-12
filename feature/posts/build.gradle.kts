@@ -40,7 +40,9 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":core:model"))
+    implementation(project(":domain:posts"))
+    implementation(project(":domain:common"))
+    implementation(project(":data:posts"))
     implementation(project(":core:network"))
     implementation(project(":core:analytics"))
 

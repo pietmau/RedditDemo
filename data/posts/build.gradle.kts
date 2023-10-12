@@ -1,4 +1,4 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
@@ -31,6 +31,12 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:network"))
+    implementation(project(":core:common"))
+    implementation(project(":domain:posts"))
+    implementation(project(":domain:common")) //TODO  really??
+
+    implementation(libs.javax.inject)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)

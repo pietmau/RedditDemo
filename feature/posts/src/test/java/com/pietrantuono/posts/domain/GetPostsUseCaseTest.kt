@@ -1,7 +1,7 @@
 package com.pietrantuono.posts.domain
 
 import com.google.common.truth.Truth.assertThat
-import com.pietrantuono.model.reddit.Post
+import com.pietrantuono.posts.model.reddit.Post
 import com.pietrantuono.posts.domain.GetPostsUseCase.Params
 import io.mockk.coEvery
 import io.mockk.mockk

@@ -1,8 +1,7 @@
-package com.pietrantuono.posts.data
+package com.pietrantuono.posts
 
-import com.pietrantuono.model.reddit.Post
 import com.pietrantuono.network.api.reddit.RedditApiClient
-import com.pietrantuono.posts.domain.PostsRepository
+import com.pietrantuono.posts.model.reddit.Post
 import javax.inject.Inject
 
 class RetrofitPostsRepository @Inject constructor(

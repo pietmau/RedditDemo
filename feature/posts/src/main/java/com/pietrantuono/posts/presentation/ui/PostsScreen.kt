@@ -19,8 +19,8 @@ import com.pietrantuono.posts.presentation.viewmodel.UiState
 fun PostsScreen(uiState: UiState = UiState(), events: (UiEvent) -> Unit = {}) {
     LazyColumn {
         items(
-            items = uiState.posts,
-            key = { it.id }) { post ->
+            items = uiState.posts
+        ) { post ->
             RedditCard(
                 modifier = Modifier.clickable { events(OnPostClicked(post.id)) },
                 post = post

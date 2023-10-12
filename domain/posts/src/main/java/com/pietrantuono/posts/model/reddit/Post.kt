@@ -1,7 +1,7 @@
-package com.pietrantuono.model.reddit
+package com.pietrantuono.posts.model.reddit
 
 data class Post(
-    val id: String? = null,
+    val id: String,
     val kind: String? = null,
     val subreddit: String? = null,
     val thumbnail: String? = null,
