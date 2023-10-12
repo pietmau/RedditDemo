@@ -6,7 +6,7 @@ import androidx.room.Relation
 class PostWithImagesEntity(
     @Embedded val post: PersistedPostEntity,
     @Relation(
-        parentColumn = "kye",
+        parentColumn = "key",
         entityColumn = "postKey",
     )
     val images: List<PersistedImageEntity>,

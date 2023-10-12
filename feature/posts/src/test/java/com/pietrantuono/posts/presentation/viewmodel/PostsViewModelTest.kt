@@ -2,7 +2,7 @@ package com.pietrantuono.posts.presentation.viewmodel
 
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
-import com.pietrantuono.posts.domain.GetPostsUseCase
+import com.pietrantuono.posts.GetPostsUseCase
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
 import com.pietrantuono.posts.presentation.viewmodel.UiEvent.GetPosts

@@ -23,9 +23,11 @@ class RetrofitRedditApiClient @Inject constructor(bearerTokenAuthInterceptor: Be
             .create(RedditApi::class.java)
     }
 
-    override suspend fun getNewPosts(subReddit: String): NetowrkRedditResponseEntity = redditApi.getNewPosts(subReddit, mapOf())
+    override suspend fun getNewPosts(subReddit: String, limit: Int) =
+        redditApi.getNewPosts(subReddit, mapOf(LIMIT to limit.toString()))
 
     private companion object {
         private const val baseUrl: String = "https://oauth.reddit.com"// TODO inject
+        private const val LIMIT = "limit"
     }
 }

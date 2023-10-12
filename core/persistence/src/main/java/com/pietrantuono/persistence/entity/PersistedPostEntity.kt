@@ -8,6 +8,8 @@ import androidx.room.PrimaryKey
 data class PersistedPostEntity(
     @PrimaryKey(autoGenerate = true)
     val key: Long = 0,
+    @ColumnInfo(name = "id")
+    val id: String,
     @ColumnInfo(name = "score")
     val score: Int? = null,
     @ColumnInfo(name = "kind")
@@ -24,8 +26,6 @@ data class PersistedPostEntity(
     val created: Long? = null,
     @ColumnInfo(name = "subreddit_id")
     val subredditId: String? = null,
-    @ColumnInfo(name = "id")
-    val id: String? = null,
     @ColumnInfo(name = "author")
     val author: String? = null,
     @ColumnInfo(name = "num_comments")

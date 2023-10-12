@@ -22,5 +22,4 @@ interface RedditDao {
     @Query("SELECT * FROM persistedpostentity  ORDER BY created_utc DESC")
     suspend fun getPosts(): List<PostWithImagesEntity>
 
-
 }

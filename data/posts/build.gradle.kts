@@ -35,6 +35,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":domain:posts"))
     implementation(project(":domain:common")) //TODO  really??
+    implementation(project(":core:persistence"))
 
     implementation(libs.javax.inject)
 

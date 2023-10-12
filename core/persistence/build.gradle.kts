@@ -1,8 +1,9 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
+    kotlin("kapt")
     alias(libs.plugins.com.android.library)
     alias(libs.plugins.org.jetbrains.kotlin.android)
-    alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -33,14 +34,22 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
+    implementation(project(":core:common"))
+    implementation(project(":domain:posts"))
+    implementation(project(":domain:common"))
 
-    // DI.
+    // DI
     implementation(libs.javax.inject)
 
-    // Room.
+    // Hilt.
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.android.compiler)
+
+    // Room
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
+    kapt(libs.room.compiler)
 
     implementation(libs.core.ktx)
     implementation(libs.appcompat)
@@ -48,4 +57,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)
     androidTestImplementation(libs.espresso.core)
+}
+kapt {
+    correctErrorTypes = true
 }

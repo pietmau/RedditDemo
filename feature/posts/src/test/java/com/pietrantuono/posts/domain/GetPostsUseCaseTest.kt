@@ -1,8 +1,9 @@
 package com.pietrantuono.posts.domain
 
 import com.google.common.truth.Truth.assertThat
+import com.pietrantuono.posts.GetPostsUseCase
+import com.pietrantuono.posts.PostsRepository
 import com.pietrantuono.posts.model.reddit.Post
-import com.pietrantuono.posts.domain.GetPostsUseCase.Params
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest
@@ -18,7 +19,7 @@ class GetPostsUseCaseTest {
     @Test
     fun `when executes then returns posts`() = runTest {
         // When
-        val result = useCase.execute(Params())
+        val result = useCase.execute(GetPostsUseCase.Params())
 
         // Then
         assertThat(result).containsExactly(post)

@@ -2,11 +2,13 @@ package com.pietrantuono.network
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
+import android.net.ConnectivityManager
 import com.pietrantuono.common.Logger
 import com.pietrantuono.network.api.accesstoken.RetrofitAccessTokenApiClient
 import com.pietrantuono.network.interceptor.BasicAuthInterceptor
 import com.pietrantuono.network.interceptor.BearerTokenAuthInterceptor
+import com.pietrantuono.network.networkchecker.NetworkChecker
+import com.pietrantuono.network.networkchecker.NetworkCheckerImpl
 import com.pietrantuono.network.tokenmanager.SharedPreferencesTokenManager
 import com.pietrantuono.network.tokenmanager.TokenManager
 import dagger.Binds
@@ -23,7 +25,14 @@ interface NetworkModule {
     @Binds
     fun bindTokenManager(tokenManagerImpl: SharedPreferencesTokenManager): TokenManager
 
+    @Binds
+    fun bindNetworkChecker(networkCheckerImpl: NetworkCheckerImpl): NetworkChecker
+
     companion object {
+
+        @Provides
+        fun provideConnectivityManager(@ApplicationContext context: Context) =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         @Provides
         fun provideBearerTokenAuthInterceptor(
@@ -40,7 +49,7 @@ interface NetworkModule {
         fun provideBasicAuthInterceptor() = BasicAuthInterceptor()
 
         @Provides
-        fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
+        fun provideSharedPreferences(@ApplicationContext context: Context) =
             context.getSharedPreferences(context.getString(R.string.token_store), Activity.MODE_PRIVATE)
     }
 }
