@@ -12,7 +12,6 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetowrkRedditRespon
         val posts = filterNullPosts(input)
         return posts.map { (kind, data) ->
             Post(kind = kind,
-                name = data.name,
                 subreddit = data.subreddit,
                 thumbnail = data.thumbnail,
                 title = data.title,
@@ -24,7 +23,7 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetowrkRedditRespon
                     )
                 } ?: emptyList(),
                 subredditId = data.subredditId,
-                id = data.id ?: "",
+                id = data.id ?: "", // TODO
                 author = data.author,
                 numComments = data.numComments,
                 permalink = data.permalink,
