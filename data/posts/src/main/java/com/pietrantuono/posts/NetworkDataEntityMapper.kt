@@ -1,15 +1,15 @@
 package com.pietrantuono.posts
 
 import com.pietrantuono.common.Mapper
-import com.pietrantuono.network.entity.reddit.NetowrkRedditResponseEntity
+import com.pietrantuono.network.entity.reddit.NetworkRedditResponseEntity
 import com.pietrantuono.network.entity.reddit.NetworkDataEntity
 import com.pietrantuono.posts.model.reddit.Image
 import com.pietrantuono.posts.model.reddit.Post
 import javax.inject.Inject
 
-class NetworkDataEntityMapper @Inject constructor() : Mapper<NetowrkRedditResponseEntity, List<Post>> {
+class NetworkDataEntityMapper @Inject constructor() : Mapper<NetworkRedditResponseEntity, List<Post>> {
 
-    override fun map(input: NetowrkRedditResponseEntity): List<Post> {
+    override fun map(input: NetworkRedditResponseEntity): List<Post> {
         val posts = filterNullPosts(input)
         return posts.map { (kind, data) ->
             Post(kind = kind,
@@ -36,6 +36,6 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetowrkRedditRespon
         }
     }
 
-    private fun filterNullPosts(input: NetowrkRedditResponseEntity): List<Pair<String?, NetworkDataEntity>> =
+    private fun filterNullPosts(input: NetworkRedditResponseEntity): List<Pair<String?, NetworkDataEntity>> =
         input.data.posts.mapNotNull { post -> post.data?.let { data -> post.kind to data } } // TODO CLEAN THIS UP
 }

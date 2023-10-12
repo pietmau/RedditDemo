@@ -8,7 +8,6 @@ import com.pietrantuono.persistence.ImageToPersistedImageEntityMapper
 import com.pietrantuono.persistence.PostToPersistedPostEntityMapper
 import com.pietrantuono.persistence.PostWithImagesEntityToPostMapper
 import com.pietrantuono.persistence.RedditDatabase
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

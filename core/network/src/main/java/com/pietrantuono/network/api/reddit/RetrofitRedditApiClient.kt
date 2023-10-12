@@ -1,6 +1,5 @@
 package com.pietrantuono.network.api.reddit
 
-import com.pietrantuono.network.entity.reddit.NetowrkRedditResponseEntity
 import com.pietrantuono.network.interceptor.BearerTokenAuthInterceptor
 import javax.inject.Inject
 import okhttp3.OkHttpClient

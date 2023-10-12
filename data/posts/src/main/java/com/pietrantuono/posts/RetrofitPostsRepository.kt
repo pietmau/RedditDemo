@@ -10,15 +10,15 @@ class RetrofitPostsRepository @Inject constructor(
     private val redditApi: RedditApiClient,
     private val networkDataEntityMapper: NetworkDataEntityMapper,
     private val networkChecker: NetworkChecker,
-    private val databaseClient: DatabaseClient
+    private val databaseClient: DatabaseClient,
 ) : PostsRepository {
+
     override suspend fun getPosts(subReddit: String, limit: Int): List<Post> {
         if (!networkChecker.isNetworkAvailable()) {
             return databaseClient.getPosts(limit)
         }
-        val response = redditApi.getNewPosts(subReddit, limit)
-        val posts = networkDataEntityMapper.map(response)
-        databaseClient.insertPosts(posts) // TODO controlla!!!!!!!!!!!
-        return posts
+        val posts = networkDataEntityMapper.map(redditApi.getNewPosts(subReddit, limit))
+        databaseClient.insertPosts(posts)
+        return databaseClient.getPosts(limit)
     }
 }

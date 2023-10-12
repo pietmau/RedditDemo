@@ -12,7 +12,7 @@ import org.junit.Test
 class GetPostsUseCaseTest {
     private val post = mockk<Post>()
     private val repository: PostsRepository = mockk {
-        coEvery { getPosts(any()) } returns listOf(post)
+        coEvery { getPosts(any(), any()) } returns listOf(post)
     }
     private val useCase = GetPostsUseCase(repository)
 
