@@ -3,26 +3,22 @@ package com.pietrantuono.redditdemo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
+import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.pietrantuono.posts.presentation.ui.PostsScreen
-import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination
-import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
 import com.pietrantuono.posts.presentation.viewmodel.PostsViewModel
 import com.pietrantuono.posts.presentation.viewmodel.UiEvent.NavigationPerformed
 import com.pietrantuono.posts.presentation.viewmodel.UiState
 import com.pietrantuono.redditdemo.navigation.DETAIL
 import com.pietrantuono.redditdemo.navigation.ID
 import com.pietrantuono.redditdemo.navigation.POSTS
-import com.pietrantuono.redditdemo.navigation.detailNavArguments
+import com.pietrantuono.redditdemo.navigation.RedditNavHost
+import com.pietrantuono.redditdemo.navigation.navigateTo
 import com.pietrantuono.redditdemo.ui.theme.RedditDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -46,28 +42,10 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(
                         route = "$DETAIL/{$ID}",
-                        arguments = detailNavArguments
+                        arguments = listOf(navArgument(ID) { type = NavType.StringType })
                     ) {}
                 }
             }
         }
-    }
-}
-
-private fun NavHostController.navigateTo(navDestination: NavigationDestination) {
-    when (navDestination) {
-        is PostDetails -> navigate("$DETAIL/${navDestination.postId}")
-        else -> Unit
-    }
-}
-
-@Composable
-private fun RedditNavHost(startDestination: String, block: NavGraphBuilder.(NavHostController) -> Unit) {
-    val navController = rememberNavController()
-    NavHost(
-        navController = navController,
-        startDestination = startDestination
-    ) {
-        block(navController)
     }
 }

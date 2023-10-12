@@ -51,10 +51,9 @@ android {
 }
 
 dependencies {
-    implementation ("androidx.navigation:navigation-compose:2.5.1")
     implementation(project(":feature:posts"))
     implementation(project(":core:common"))
-    implementation("androidx.activity:activity-ktx:1.8.0")
+
     // Hilt.
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
@@ -70,6 +69,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.navigation.compose)
+    implementation(libs.activity.ktx)
 
     testImplementation(libs.junit)
 
