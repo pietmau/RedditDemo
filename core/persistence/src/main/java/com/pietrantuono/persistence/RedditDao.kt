@@ -2,7 +2,7 @@ package com.pietrantuono.persistence
 
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy
+import androidx.room.OnConflictStrategy.Companion.IGNORE
 import androidx.room.Query
 import androidx.room.Transaction
 import com.pietrantuono.persistence.entity.PersistedImageEntity
@@ -12,10 +12,10 @@ import com.pietrantuono.persistence.entity.PostWithImagesEntity
 @Dao
 interface RedditDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(entity = PersistedPostEntity::class, onConflict = IGNORE)
     suspend fun insert(post: PersistedPostEntity): Long
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = IGNORE)
     suspend fun insert(post: PersistedImageEntity): Long
 
     @Transaction
