@@ -30,7 +30,7 @@ private const val EMPTY_STRING = ""
 @Composable
 fun RedditCard(
     modifier: Modifier = Modifier,
-    post: PostUiModel = PostUiModel(title = TITLE, id = EMPTY_STRING),
+    post: PostUiModel = PostUiModel(title = TITLE, id = EMPTY_STRING)
 ) {
     val smallPadding = dimensionResource(R.dimen.small_padding)
     Card(
@@ -40,7 +40,7 @@ fun RedditCard(
                 start = smallPadding,
                 end = smallPadding
             )
-            .defaultMinSize(minHeight = dimensionResource(R.dimen.default_size)) // TODO Externzalize
+            .defaultMinSize(minHeight = dimensionResource(R.dimen.default_size))
     ) {
         Row(
             modifier = Modifier

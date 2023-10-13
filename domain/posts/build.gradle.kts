@@ -10,6 +10,14 @@ java {
     targetCompatibility = JavaVersion.VERSION_17
 }
 dependencies {
-    implementation(libs.javax.inject)
     implementation(project(":domain:common"))
+
+    implementation(libs.javax.inject)
+
+    // Tests.
+    testImplementation(libs.junit)
+    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.truth)
+    testImplementation(libs.kotlinx.coroutines.test)
 }

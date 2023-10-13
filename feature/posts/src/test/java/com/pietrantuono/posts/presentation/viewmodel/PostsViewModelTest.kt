@@ -32,6 +32,7 @@ class PostsViewModelTest {
     fun `when starts then posts are empty`() = runTest {
         viewModel.uiState.test {
             val state = awaitItem()
+            assertThat(state.isLoading).isTrue()
             assertThat(state.posts).isEmpty()
             assertThat(state.navDestination).isEqualTo(None)
         }
@@ -44,7 +45,9 @@ class PostsViewModelTest {
             viewModel.accept(GetPosts)
 
             // Then
-            assertThat(expectMostRecentItem().posts).containsExactly(model)
+            val state = expectMostRecentItem()
+            assertThat(state.isLoading).isFalse()
+            assertThat(state.posts).containsExactly(model)
         }
     }
 

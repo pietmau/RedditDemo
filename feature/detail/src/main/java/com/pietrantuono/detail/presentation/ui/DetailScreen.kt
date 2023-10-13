@@ -16,17 +16,15 @@ fun DetailScreen(
     postsUiState: DetailUiState = DetailUiState(),
     events: (DetailUiEvent) -> Unit = { }
 ) {
-    if (postsUiState.post != null) {
-        PostDetail(postsUiState.post)
-    }
+    PostDetail(postsUiState.post)
     LaunchedEffect(postId) {
         events(DetailUiEvent.GetPostDetail(postId))
     }
 }
 
 @Composable
-private fun PostDetail(post: PostDetailUiModel) {
-    post.image?.let {
+private fun PostDetail(post: PostDetailUiModel? = PostDetailUiModel(EMPTY_STRING)) {
+    post?.image?.let {
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
             model = it,

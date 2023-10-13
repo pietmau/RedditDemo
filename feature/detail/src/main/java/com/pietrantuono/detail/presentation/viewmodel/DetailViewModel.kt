@@ -37,7 +37,7 @@ class DetailViewModel @Inject constructor(
         launch {
             val post = detailUseCase.execute(Params(id))
             post?.let {
-                updateState { copy(loading = false, post = mapper.map(it)) }
+                updateState { copy(post = mapper.map(it)) }
             }
         }
     }

@@ -20,7 +20,7 @@ class DatabaseClientImpl @Inject constructor(
         }
     }
 
-    override suspend fun getPosts(limit: Int) = redditDao.getPosts().map {
+    override suspend fun getPosts(limit: Int) = redditDao.getPosts(limit).map {
         postWithImagesEntityToPostMapper.map(it)
     }
 

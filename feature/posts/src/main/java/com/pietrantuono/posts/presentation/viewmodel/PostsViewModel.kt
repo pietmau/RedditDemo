@@ -3,6 +3,7 @@ package com.pietrantuono.posts.presentation.viewmodel
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.posts.GetPostsUseCase
+import com.pietrantuono.posts.GetPostsUseCase.Params
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetPosts
@@ -41,8 +42,13 @@ class PostsViewModel @Inject constructor(
 
     private fun getInitialPosts() {
         launch {
-            val posts = useCase.execute(GetPostsUseCase.Params())
-            updateState { copy(posts = posts.map { mapper.map(it) }) }
+            val posts = useCase.execute(Params())
+            updateState {
+                copy(
+                    isLoading = false,
+                    posts = posts.map { mapper.map(it) }
+                )
+            }
         }
     }
 }

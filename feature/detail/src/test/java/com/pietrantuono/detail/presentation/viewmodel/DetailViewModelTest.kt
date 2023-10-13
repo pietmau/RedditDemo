@@ -37,7 +37,6 @@ class DetailViewModelTest {
     fun `when starts then is loading`() = runTest {
         viewModel.uiState.test {
             val state = awaitItem()
-            assertThat(state.loading).isTrue()
             assertThat(state.error).isFalse()
             assertThat(state.post).isNull()
         }
@@ -53,7 +52,6 @@ class DetailViewModelTest {
             val state = expectMostRecentItem()
             assertThat(state.post).isEqualTo(model)
             assertThat(state.error).isFalse()
-            assertThat(state.loading).isFalse()
         }
     }
 
@@ -70,7 +68,6 @@ class DetailViewModelTest {
             val state = expectMostRecentItem()
             assertThat(state.post).isEqualTo(model)
             assertThat(state.error).isFalse()
-            assertThat(state.loading).isFalse()
         }
     }
 
