@@ -16,5 +16,5 @@ data class NetworkDataEntity(
     @SerializedName("permalink") val permalink: String? = null,
     @SerializedName("url") val url: String? = null,
     @SerializedName("created_utc") val createdUtc: Long,
-    @SerializedName("url_overridden_by_dest") val urlOverriddenByDest: String,
+    @SerializedName("url_overridden_by_dest") val urlOverriddenByDest: String
 )

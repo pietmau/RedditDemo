@@ -67,7 +67,6 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
     testImplementation(libs.kotlinx.coroutines.test)
-
 }
 kapt {
     correctErrorTypes = true

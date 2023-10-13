@@ -6,6 +6,6 @@ interface PostsRepository {
 
     suspend fun getPosts(
         subReddit: String,
-        limit: Int,
+        limit: Int
     ): List<Post>
 }

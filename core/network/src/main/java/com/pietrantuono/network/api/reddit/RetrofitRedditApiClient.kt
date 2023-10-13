@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class RetrofitRedditApiClient @Inject constructor(
-    bearerTokenAuthInterceptor: BearerTokenAuthInterceptor,
+    bearerTokenAuthInterceptor: BearerTokenAuthInterceptor
 ) : RedditApiClient {
 
     private val redditApi by lazy {
@@ -25,14 +25,15 @@ class RetrofitRedditApiClient @Inject constructor(
             .client(client)
             .addConverterFactory(GsonConverterFactory.create()).build()
             .create(RedditApi::class.java)
-
     }
 
-    override suspend fun getNewPosts(subReddit: String, limit: Int) =
-        redditApi.getNewPosts(subReddit, mapOf(LIMIT to limit.toString()))
+    override suspend fun getNewPosts(
+        subReddit: String,
+        limit: Int
+    ) = redditApi.getNewPosts(subReddit, mapOf(LIMIT to limit.toString()))
 
-    private companion object {
-        private const val BASEURL: String = "https://oauth.reddit.com"// TODO inject
+    private companion object { // TODO move to config.
+        private const val BASEURL: String = "https://oauth.reddit.com"
         private const val LIMIT = "limit"
     }
 }

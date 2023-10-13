@@ -6,6 +6,6 @@ interface RedditApiClient {
 
     suspend fun getNewPosts(
         subReddit: String,
-        limit: Int,
+        limit: Int
     ): NetworkRedditResponseEntity
 }

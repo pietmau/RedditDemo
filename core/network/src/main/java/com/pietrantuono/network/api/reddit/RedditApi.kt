@@ -10,7 +10,7 @@ interface RedditApi {
     @GET("/r/{subReddit}/new/")
     suspend fun getNewPosts(
         @Path(SUBREDDIT) subReddit: String,
-        @QueryMap queryMap: Map<String, String>,
+        @QueryMap queryMap: Map<String, String>
     ): NetworkRedditResponseEntity
 
     private companion object {

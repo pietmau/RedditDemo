@@ -17,9 +17,7 @@ class RetrofitAccessTokenApiClient @Inject constructor() : AccessTokenApiClient 
             .build()
         Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .client(
-                client
-            )
+            .client(client)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(AccessTokenApi::class.java)
@@ -32,7 +30,7 @@ class RetrofitAccessTokenApiClient @Inject constructor() : AccessTokenApiClient 
             deviceId = deviceId
         ).execute().body()
 
-    private companion object {
+    private companion object { // TODO: 2020-01-15 Move to config.
         private const val BASE_URL = "https://www.reddit.com"
         private const val GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client"
         private const val REDIRECT_URI = "https://www.reddit.com"

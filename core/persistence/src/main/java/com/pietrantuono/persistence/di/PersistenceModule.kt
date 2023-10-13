@@ -23,10 +23,10 @@ interface PersistenceModule {
         @Provides
         fun bindDatabaseClient(@ApplicationContext applicationContext: Context): DatabaseClient {
             val database = Room.databaseBuilder(
-                    context = applicationContext,
-                    klass = RedditDatabase::class.java,
-                    name = DATABASE_NAME
-                ).build()
+                context = applicationContext,
+                klass = RedditDatabase::class.java,
+                name = DATABASE_NAME
+            ).build()
             return DatabaseClientImpl(
                 redditDatabase = database,
                 redditDao = database.redditDao(),

@@ -19,9 +19,9 @@ class PostsViewModelTest {
     private val useCase: GetPostsUseCase = mockk {
         coEvery { execute(any()) } returns listOf(mockk())
     }
-    private val postUiModel: PostUiModel = mockk()
+    private val model: PostUiModel = mockk()
     private val mapper: PostsUiStateMapper = mockk {
-        coEvery { map(any()) } returns postUiModel
+        coEvery { map(any()) } returns model
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -44,7 +44,7 @@ class PostsViewModelTest {
             viewModel.accept(GetPosts)
 
             // Then
-            assertThat(expectMostRecentItem().posts).containsExactly(postUiModel)
+            assertThat(expectMostRecentItem().posts).containsExactly(model)
         }
     }
 

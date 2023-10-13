@@ -5,7 +5,7 @@ import com.pietrantuono.posts.PostDetailRepository
 import javax.inject.Inject
 
 class PostDetailRepositoryImpl @Inject constructor(
-    private val databaseClient: DatabaseClient,
+    private val databaseClient: DatabaseClient
 ) : PostDetailRepository {
     override suspend fun getPostDetail(id: String) = databaseClient.getPostById(id)
 }

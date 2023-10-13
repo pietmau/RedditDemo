@@ -30,11 +30,12 @@ class RetrofitPostsRepositoryTest {
         redditApi,
         networkDataEntityMapper,
         networkChecker,
-        databaseClient
+        databaseClient,
+        mockk(relaxed = true)
     )
 
     @Test
-    fun `given network is not available when gets posts then returns posts from database`() = runTest {
+    fun `given network is not available when gets posts then returns from db`() = runTest {
         // Given
         coEvery { networkChecker.isNetworkAvailable() } returns false
 
@@ -61,6 +62,23 @@ class RetrofitPostsRepositoryTest {
             databaseClient.getPosts(any())
             redditApi.getNewPosts(eq(SUBREDDIT), eq(LIMIT))
         }
+        assertThat(result).isEqualTo(listOf(post))
+    }
+
+    @Test
+    fun `given an exception is thrown when gets posts then gets the them from the db`() = runTest {
+        // Given
+        coEvery { networkChecker.isNetworkAvailable() } returns true
+        coEvery { redditApi.getNewPosts(any(), any()) } throws Exception()
+        // When
+        val result = repository.getPosts(SUBREDDIT, LIMIT)
+
+        // Then
+        coVerify {
+            databaseClient.getPosts(any())
+            redditApi.getNewPosts(eq(SUBREDDIT), eq(LIMIT))
+        }
+        coVerify(inverse = true) { databaseClient.insertPosts(any()) }
         assertThat(result).isEqualTo(listOf(post))
     }
 

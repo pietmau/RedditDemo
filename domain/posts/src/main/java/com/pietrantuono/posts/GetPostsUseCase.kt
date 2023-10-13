@@ -5,10 +5,13 @@ import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
 class GetPostsUseCase @Inject constructor(
-    private val repository: PostsRepository,
+    private val repository: PostsRepository
 ) : UseCase<GetPostsUseCase.Params, List<Post>> {
 
-    override suspend fun execute(params: Params) = repository.getPosts(params.subReddit, params.limit)
+    override suspend fun execute(params: Params) = repository.getPosts(
+        params.subReddit,
+        params.limit
+    )
 
     data class Params(val subReddit: String = DEFAULT_SUBREDDIT, val limit: Int = DEFAULT_LIMIT) {
         private companion object {

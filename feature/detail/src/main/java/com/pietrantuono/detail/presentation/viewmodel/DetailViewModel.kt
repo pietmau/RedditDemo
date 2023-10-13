@@ -17,7 +17,7 @@ class DetailViewModel @Inject constructor(
     private val mapper: DetailMapper,
     private val handle: SavedStateHandle,
     coroutineContext: CoroutineContext,
-    logger: Logger,
+    logger: Logger
 ) : RedditViewModel<DetailUiState, DetailUiEvent>(coroutineContext, logger) {
 
     override val _uiState: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState())

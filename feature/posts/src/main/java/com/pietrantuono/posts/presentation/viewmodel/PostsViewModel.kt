@@ -18,7 +18,7 @@ class PostsViewModel @Inject constructor(
     private val useCase: GetPostsUseCase,
     private val mapper: PostsUiStateMapper,
     coroutineContext: CoroutineContext,
-    logger: Logger,
+    logger: Logger
 ) : RedditViewModel<PostsUiState, PostsUiEvent>(coroutineContext, logger) {
 
     override val _uiState: MutableStateFlow<PostsUiState> = MutableStateFlow(PostsUiState())

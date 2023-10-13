@@ -4,3 +4,4 @@
 - TODO loading state
 - TODO select images
 - add loading state
+- use encrypted share dpreferences 

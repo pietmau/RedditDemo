@@ -13,7 +13,7 @@ interface AccessTokenApi {
     fun getAccessToken(
         @Field(GRANT_TYPE) grantType: String,
         @Field(REDIRECT_URI) redirectUri: String,
-        @Field(DEVICE_ID) deviceId: String,
+        @Field(DEVICE_ID) deviceId: String
     ): Call<AccessToken>
 
     private companion object {

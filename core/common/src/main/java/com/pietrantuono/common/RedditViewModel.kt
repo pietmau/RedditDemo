@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 
 abstract class RedditViewModel<UiState, UiEvent>(
     private val coroutineContext: CoroutineContext,
-    private val logger: Logger,
+    private val logger: Logger
 ) : ViewModel(), Consumer<UiEvent> {
 
     @Suppress("PropertyName")

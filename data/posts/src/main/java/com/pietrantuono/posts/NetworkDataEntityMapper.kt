@@ -32,5 +32,6 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetworkRedditRespon
     }
 
     private fun filterNullPosts(input: NetworkRedditResponseEntity): List<Pair<String?, NetworkDataEntity>> =
-        input.data.posts.mapNotNull { post -> post.data?.let { data -> post.kind to data } } // TODO CLEAN THIS UP
+        // TODO CLEAN THIS UP
+        input.data.posts.mapNotNull { post -> post.data?.let { data -> post.kind to data } }
 }

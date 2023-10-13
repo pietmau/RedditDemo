@@ -7,7 +7,7 @@ import okhttp3.Response
 
 class BasicAuthInterceptor constructor(
     private val host: String = HOST,
-    private val credentials: String = "${BuildConfig.CLIENT_ID}:",
+    private val credentials: String = "${BuildConfig.CLIENT_ID}:"
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -16,11 +16,12 @@ class BasicAuthInterceptor constructor(
             return chain.proceed(request)
         }
         val encodedCredentials = Base64.encodeToString(credentials.toByteArray(), Base64.NO_WRAP)
-        val newRequest = request.newBuilder().header(AUTHORIZATION, "$BASIC $encodedCredentials").build()
+        val newRequest = request.newBuilder()
+            .header(AUTHORIZATION, "$BASIC $encodedCredentials").build()
         return chain.proceed(newRequest)
     }
 
-    private companion object {
+    private companion object { // TODO: 10/10/19 move to config.
         private const val HOST = "www.reddit.com"
         private const val AUTHORIZATION = "Authorization"
         private const val BASIC = "Basic"

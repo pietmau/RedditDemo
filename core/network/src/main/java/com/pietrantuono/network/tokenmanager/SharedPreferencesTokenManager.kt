@@ -5,7 +5,7 @@ import java.util.UUID
 import javax.inject.Inject
 
 class SharedPreferencesTokenManager @Inject constructor(
-    private val sharedPreferences: SharedPreferences,
+    private val sharedPreferences: SharedPreferences
 ) : TokenManager {
     override fun getToken(): String? = sharedPreferences.getString(TOKEN, null)
 
