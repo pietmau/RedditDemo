@@ -1,11 +1,13 @@
 package com.pietrantuono.redditdemo
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import com.google.android.gms.tflite.client.TfLiteInitializationOptions
 import com.pietrantuono.redditdemo.navigation.DETAIL
 import com.pietrantuono.redditdemo.navigation.ID
 import com.pietrantuono.redditdemo.navigation.POSTS
@@ -15,6 +17,7 @@ import com.pietrantuono.redditdemo.ui.AllPosts
 import com.pietrantuono.redditdemo.ui.PostsDetail
 import com.pietrantuono.redditdemo.ui.theme.RedditDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
+import org.tensorflow.lite.task.gms.vision.TfLiteVision
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -39,6 +42,19 @@ class MainActivity : ComponentActivity() {
                         PostsDetail(postId)
                     }
                 }
+            }
+        }
+
+        val options = TfLiteInitializationOptions.builder()
+            .setEnableGpuDelegateSupport(true)
+            .build()
+        TfLiteVision.initialize(this, options).addOnSuccessListener {
+            Log.e("MainActivity", "TfLiteVision.initialize")
+        }.addOnFailureListener {
+            TfLiteVision.initialize(this).addOnSuccessListener {
+                Log.e("MainActivity", "TfLiteVision.initialize")
+            }.addOnFailureListener {
+                Log.e("MainActivity", "TfLiteVision.initialize failed")
             }
         }
     }
