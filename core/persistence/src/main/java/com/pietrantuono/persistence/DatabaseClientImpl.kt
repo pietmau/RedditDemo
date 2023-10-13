@@ -1,8 +1,8 @@
 package com.pietrantuono.persistence
 
 import androidx.room.withTransaction
-import com.pietrantuono.posts.model.reddit.Image
-import com.pietrantuono.posts.model.reddit.Post
+import com.pietrantuono.common.model.reddit.Image
+import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
 class DatabaseClientImpl @Inject constructor(
@@ -25,6 +25,8 @@ class DatabaseClientImpl @Inject constructor(
     }
 
     override suspend fun getPosts(limit: Int) = redditDao.getPosts().map { postWithImagesEntityToPostMapper.map(it) }
+
+    override suspend fun getPostById(id: String): Post? = redditDao.getPostById(id)?.let { postWithImagesEntityToPostMapper.map(it) }
 
     private suspend fun insertPost(post: Post) = redditDao.insert(postToPersistedPostEntityMapper.map(post))
 

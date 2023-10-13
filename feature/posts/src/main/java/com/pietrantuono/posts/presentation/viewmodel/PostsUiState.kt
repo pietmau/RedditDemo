@@ -2,7 +2,7 @@ package com.pietrantuono.posts.presentation.viewmodel
 
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
 
-data class UiState(val posts: List<PostUiModel> = emptyList(), val navDestination: NavigationDestination = None)
+data class PostsUiState(val posts: List<PostUiModel> = emptyList(), val navDestination: NavigationDestination = None)
 
 data class PostUiModel(
     val id: String,

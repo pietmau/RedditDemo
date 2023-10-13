@@ -5,6 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.IGNORE
 import androidx.room.Query
 import androidx.room.Transaction
+import com.pietrantuono.common.model.reddit.Post
 import com.pietrantuono.persistence.entity.PersistedImageEntity
 import com.pietrantuono.persistence.entity.PersistedPostEntity
 import com.pietrantuono.persistence.entity.PostWithImagesEntity
@@ -21,5 +22,8 @@ interface RedditDao {
     @Transaction
     @Query("SELECT * FROM persistedpostentity  ORDER BY created_utc DESC")
     suspend fun getPosts(): List<PostWithImagesEntity>
+
+    @Query("SELECT * FROM persistedpostentity  WHERE id = :id")
+    suspend fun getPostById(id: String): PostWithImagesEntity?
 
 }

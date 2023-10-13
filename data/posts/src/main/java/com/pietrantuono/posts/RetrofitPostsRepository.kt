@@ -3,7 +3,7 @@ package com.pietrantuono.posts
 import com.pietrantuono.network.api.reddit.RedditApiClient
 import com.pietrantuono.network.networkchecker.NetworkChecker
 import com.pietrantuono.persistence.DatabaseClient
-import com.pietrantuono.posts.model.reddit.Post
+import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
 class RetrofitPostsRepository @Inject constructor(

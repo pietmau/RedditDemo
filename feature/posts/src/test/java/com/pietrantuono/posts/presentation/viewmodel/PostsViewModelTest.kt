@@ -5,9 +5,9 @@ import com.google.common.truth.Truth.assertThat
 import com.pietrantuono.posts.GetPostsUseCase
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
-import com.pietrantuono.posts.presentation.viewmodel.UiEvent.GetPosts
-import com.pietrantuono.posts.presentation.viewmodel.UiEvent.NavigationPerformed
-import com.pietrantuono.posts.presentation.viewmodel.UiEvent.OnPostClicked
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetPosts
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.NavigationPerformed
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.OnPostClicked
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,7 +20,7 @@ class PostsViewModelTest {
         coEvery { execute(any()) } returns listOf(mockk())
     }
     private val postUiModel: PostUiModel = mockk()
-    private val mapper: UiStateMapper = mockk {
+    private val mapper: PostsUiStateMapper = mockk {
         coEvery { map(any()) } returns postUiModel
     }
 

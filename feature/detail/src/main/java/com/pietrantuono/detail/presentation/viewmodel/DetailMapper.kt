@@ -1,13 +1,12 @@
-package com.pietrantuono.posts.presentation.viewmodel
+package com.pietrantuono.detail.presentation.viewmodel
 
 import com.pietrantuono.common.Mapper
-import com.pietrantuono.posts.model.reddit.Post
+import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
-class UiStateMapper @Inject constructor() : Mapper<Post, PostUiModel> {
-
+class DetailMapper @Inject constructor() : Mapper<Post, PostDetailUiModel> {
     override fun map(input: Post) =
-        PostUiModel(
+        PostDetailUiModel(
             id = input.id,
             title = input.title,
             author = input.author,

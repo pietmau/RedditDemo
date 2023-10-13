@@ -1,4 +1,4 @@
-package com.pietrantuono.posts.model.reddit
+package com.pietrantuono.common.model.reddit
 
 data class Image(
     val url: String? = null,

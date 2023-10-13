@@ -1,6 +1,6 @@
 package com.pietrantuono.posts
 
-import com.pietrantuono.posts.model.reddit.Post
+import com.pietrantuono.common.model.reddit.Post
 
 interface PostsRepository {
 

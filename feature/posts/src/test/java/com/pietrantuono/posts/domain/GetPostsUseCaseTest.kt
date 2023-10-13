@@ -3,7 +3,7 @@ package com.pietrantuono.posts.domain
 import com.google.common.truth.Truth.assertThat
 import com.pietrantuono.posts.GetPostsUseCase
 import com.pietrantuono.posts.PostsRepository
-import com.pietrantuono.posts.model.reddit.Post
+import com.pietrantuono.common.model.reddit.Post
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.test.runTest

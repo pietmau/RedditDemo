@@ -8,6 +8,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination
+import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
 
 internal const val POSTS = "posts"
 internal const val ID = "id"
@@ -27,7 +28,7 @@ internal fun RedditNavHost(startDestination: String, block: NavGraphBuilder.(Nav
 
 fun NavHostController.navigateTo(navDestination: NavigationDestination) {
     when (navDestination) {
-        is NavigationDestination.PostDetails -> navigate("$DETAIL/${navDestination.postId}")
+        is PostDetails -> navigate("$DETAIL/${navDestination.postId}")
         else -> Unit
     }
 }

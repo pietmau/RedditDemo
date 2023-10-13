@@ -1,4 +1,4 @@
-package com.pietrantuono.posts.model.reddit
+package com.pietrantuono.common.model.reddit
 
 data class Post(
     val id: String,

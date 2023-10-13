@@ -3,8 +3,8 @@ package com.pietrantuono.posts
 import com.pietrantuono.common.Mapper
 import com.pietrantuono.network.entity.reddit.NetworkRedditResponseEntity
 import com.pietrantuono.network.entity.reddit.NetworkDataEntity
-import com.pietrantuono.posts.model.reddit.Image
-import com.pietrantuono.posts.model.reddit.Post
+import com.pietrantuono.common.model.reddit.Image
+import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
 class NetworkDataEntityMapper @Inject constructor() : Mapper<NetworkRedditResponseEntity, List<Post>> {

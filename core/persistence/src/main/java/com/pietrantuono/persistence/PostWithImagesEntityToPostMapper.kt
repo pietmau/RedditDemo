@@ -2,8 +2,8 @@ package com.pietrantuono.persistence
 
 import com.pietrantuono.common.Mapper
 import com.pietrantuono.persistence.entity.PostWithImagesEntity
-import com.pietrantuono.posts.model.reddit.Image
-import com.pietrantuono.posts.model.reddit.Post
+import com.pietrantuono.common.model.reddit.Image
+import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
 class PostWithImagesEntityToPostMapper @Inject constructor() : Mapper<PostWithImagesEntity, Post> {

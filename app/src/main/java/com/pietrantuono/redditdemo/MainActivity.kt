@@ -12,8 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pietrantuono.posts.presentation.ui.PostsScreen
 import com.pietrantuono.posts.presentation.viewmodel.PostsViewModel
-import com.pietrantuono.posts.presentation.viewmodel.UiEvent.NavigationPerformed
-import com.pietrantuono.posts.presentation.viewmodel.UiState
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.NavigationPerformed
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiState
 import com.pietrantuono.redditdemo.navigation.DETAIL
 import com.pietrantuono.redditdemo.navigation.ID
 import com.pietrantuono.redditdemo.navigation.POSTS
@@ -31,12 +31,12 @@ class MainActivity : ComponentActivity() {
                 RedditNavHost(startDestination = POSTS) { controller ->
                     composable(route = POSTS) {
                         val viewModel = hiltViewModel<PostsViewModel>()
-                        val uiState by viewModel.uiState.collectAsStateWithLifecycle(UiState())
-                        PostsScreen(uiState) { event ->
+                        val postsUiState by viewModel.uiState.collectAsStateWithLifecycle(PostsUiState())
+                        PostsScreen(postsUiState) { event ->
                             viewModel.accept(event)
                         }
-                        LaunchedEffect(uiState.navDestination) {
-                            controller.navigateTo(uiState.navDestination)
+                        LaunchedEffect(postsUiState.navDestination) {
+                            controller.navigateTo(postsUiState.navDestination)
                             viewModel.accept(NavigationPerformed)
                         }
                     }
