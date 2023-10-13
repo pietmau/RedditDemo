@@ -26,11 +26,15 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun getPostDetail(id: String) {
-        launch {
-            val post = detailUseCase.execute(Params(id))
-            post?.let {
-                updateState { copy(loading = false, post = mapper.map(it)) }
+    private fun getPostDetail(id: String?) {
+        if (id == null) {
+            updateState { copy(loading = false, error = true) }
+        } else {
+            launch {
+                val post = detailUseCase.execute(Params(id))
+                post?.let {
+                    updateState { copy(loading = false, post = mapper.map(it)) }
+                }
             }
         }
     }

@@ -1,9 +1,34 @@
 package com.pietrantuono.detail.presentation.ui
 
+import android.util.Log
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Modifier
+import coil.compose.AsyncImage
+import com.pietrantuono.common.EMPTY_STRING
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiState
+import com.pietrantuono.detail.presentation.viewmodel.PostDetailUiModel
 
 @Composable
-fun DetailScreen(string: String? = null, postsUiState: DetailUiState = DetailUiState(), events: (DetailUiEvent) -> Unit = { }) {
+fun DetailScreen(postId: String? = null, postsUiState: DetailUiState = DetailUiState(), events: (DetailUiEvent) -> Unit = { }) {
+    if (postsUiState.post != null) {
+        PostDetail(postsUiState.post)
+    }
+    LaunchedEffect(postId) {
+        events(DetailUiEvent.GetPostDetail(postId))
+    }
+}
+
+@Composable
+private fun PostDetail(post: PostDetailUiModel) {
+    Log.e("PostDetail", "PostDetail: ${post.images.firstOrNull()}")
+    post.images.firstOrNull()?.let {
+        AsyncImage(
+            modifier = Modifier.fillMaxWidth(),
+            model = "https://i.redd.it/g4vm7de3q4j51.jpg",
+            contentDescription = post.title ?: EMPTY_STRING
+        )
+    }
 }
