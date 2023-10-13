@@ -11,13 +11,6 @@ class DetailMapper @Inject constructor() : Mapper<Post, PostDetailUiModel> {
             title = input.title,
             author = input.author,
             created = input.created,
-            thumbnail = input.thumbnail,
-            images = input.images.map { image ->
-                ImageUiModel(
-                    url = image.url,
-                    width = image.width,
-                    height = image.height
-                )
-            }
+            image = input.urlOverriddenByDest
         )
 }

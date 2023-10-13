@@ -1,6 +1,5 @@
 package com.pietrantuono.detail.presentation.ui
 
-import android.util.Log
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,11 +22,10 @@ fun DetailScreen(postId: String? = null, postsUiState: DetailUiState = DetailUiS
 
 @Composable
 private fun PostDetail(post: PostDetailUiModel) {
-    Log.e("PostDetail", "PostDetail: ${post.images.firstOrNull()}")
-    post.images.firstOrNull()?.let {
+    post.image?.let {
         AsyncImage(
             modifier = Modifier.fillMaxWidth(),
-            model = "https://i.redd.it/g4vm7de3q4j51.jpg",
+            model = it,
             contentDescription = post.title ?: EMPTY_STRING
         )
     }

@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.room.Room
 import com.pietrantuono.persistence.DatabaseClient
 import com.pietrantuono.persistence.DatabaseClientImpl
-import com.pietrantuono.persistence.ImageToPersistedImageEntityMapper
 import com.pietrantuono.persistence.PostToPersistedPostEntityMapper
 import com.pietrantuono.persistence.PostWithImagesEntityToPostMapper
 import com.pietrantuono.persistence.RedditDatabase
@@ -32,7 +31,6 @@ interface PersistenceModule {
                 redditDatabase = database,
                 redditDao = database.redditDao(),
                 postToPersistedPostEntityMapper = PostToPersistedPostEntityMapper(),
-                imageToPersistedImageEntityMapper = ImageToPersistedImageEntityMapper(),
                 postWithImagesEntityToPostMapper = PostWithImagesEntityToPostMapper()
             )
         }

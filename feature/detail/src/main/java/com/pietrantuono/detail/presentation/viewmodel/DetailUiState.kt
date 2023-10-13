@@ -7,8 +7,7 @@ data class PostDetailUiModel(
     val title: String? = null,
     val author: String? = null,
     val created: Long? = null,
-    val thumbnail: String? = null,
-    val images: List<ImageUiModel> = emptyList(),
+    val image: String? = null,
 )
 
 data class ImageUiModel(

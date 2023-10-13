@@ -5,10 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.IGNORE
 import androidx.room.Query
 import androidx.room.Transaction
-import com.pietrantuono.common.model.reddit.Post
-import com.pietrantuono.persistence.entity.PersistedImageEntity
 import com.pietrantuono.persistence.entity.PersistedPostEntity
-import com.pietrantuono.persistence.entity.PostWithImagesEntity
 
 @Dao
 interface RedditDao {
@@ -16,14 +13,11 @@ interface RedditDao {
     @Insert(entity = PersistedPostEntity::class, onConflict = IGNORE)
     suspend fun insert(post: PersistedPostEntity): Long
 
-    @Insert(onConflict = IGNORE)
-    suspend fun insert(post: PersistedImageEntity): Long
-
     @Transaction
     @Query("SELECT * FROM persistedpostentity  ORDER BY created_utc DESC")
-    suspend fun getPosts(): List<PostWithImagesEntity>
+    suspend fun getPosts(): List<PersistedPostEntity> // TODO remove tyoe
 
     @Query("SELECT * FROM persistedpostentity  WHERE id = :id")
-    suspend fun getPostById(id: String): PostWithImagesEntity?
+    suspend fun getPostById(id: String): PersistedPostEntity?
 
 }

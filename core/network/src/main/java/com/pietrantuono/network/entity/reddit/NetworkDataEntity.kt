@@ -10,11 +10,11 @@ data class NetworkDataEntity(
     @SerializedName("title") val title: String? = null,
     @SerializedName("ups") val ups: Int? = null,
     @SerializedName("created") val created: Long? = null,
-    @SerializedName("preview") val preview: NetworkPreviewEntity? = NetworkPreviewEntity(),
     @SerializedName("subreddit_id") val subredditId: String? = null,
     @SerializedName("author") val author: String? = null,
     @SerializedName("num_comments") val numComments: Int? = null,
     @SerializedName("permalink") val permalink: String? = null,
     @SerializedName("url") val url: String? = null,
-    @SerializedName("created_utc") val createdUtc: Long
+    @SerializedName("created_utc") val createdUtc: Long,
+    @SerializedName("url_overridden_by_dest") val urlOverriddenByDest: String,
 )

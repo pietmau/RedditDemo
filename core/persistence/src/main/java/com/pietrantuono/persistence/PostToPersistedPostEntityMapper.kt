@@ -23,5 +23,6 @@ class PostToPersistedPostEntityMapper @Inject constructor() : Mapper<Post, Persi
             numComments = input.numComments,
             ups = input.ups,
             createdUtc = input.createdUtc,
+            urlOverriddenByDest = input.urlOverriddenByDest
         )
 }

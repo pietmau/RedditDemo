@@ -1,7 +1,6 @@
 package com.pietrantuono.persistence
 
 import androidx.room.withTransaction
-import com.pietrantuono.common.model.reddit.Image
 import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
@@ -9,17 +8,13 @@ class DatabaseClientImpl @Inject constructor(
     private val redditDatabase: RedditDatabase,
     private val redditDao: RedditDao,
     private val postToPersistedPostEntityMapper: PostToPersistedPostEntityMapper,
-    private val imageToPersistedImageEntityMapper: ImageToPersistedImageEntityMapper,
     private val postWithImagesEntityToPostMapper: PostWithImagesEntityToPostMapper,
 ) : DatabaseClient {
 
     override suspend fun insertPosts(posts: List<Post>) {
         redditDatabase.withTransaction {
             posts.forEach { post ->
-                val postKey = insertPost(post)
-                if (postKey != -1L) {
-                    insertImages(post.images, postKey)
-                }
+                redditDao.insert(postToPersistedPostEntityMapper.map(post)) // TODO: 2021-10-17 insert all at once
             }
         }
     }
@@ -28,13 +23,4 @@ class DatabaseClientImpl @Inject constructor(
 
     override suspend fun getPostById(id: String): Post? = redditDao.getPostById(id)?.let { postWithImagesEntityToPostMapper.map(it) }
 
-    private suspend fun insertPost(post: Post) = redditDao.insert(postToPersistedPostEntityMapper.map(post))
-
-    private suspend fun insertImages(images: List<Image>, key: Long) =
-        images
-            .map { imageToPersistedImageEntityMapper.map(it) }
-            .map { it.copy(postKey = key) }
-            .forEach { image ->
-                redditDao.insert(image)
-            }
 }
