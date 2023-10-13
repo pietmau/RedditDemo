@@ -11,7 +11,11 @@ import com.pietrantuono.detail.presentation.viewmodel.DetailUiState
 import com.pietrantuono.detail.presentation.viewmodel.PostDetailUiModel
 
 @Composable
-fun DetailScreen(postId: String? = null, postsUiState: DetailUiState = DetailUiState(), events: (DetailUiEvent) -> Unit = { }) {
+fun DetailScreen(
+    postId: String? = null,
+    postsUiState: DetailUiState = DetailUiState(),
+    events: (DetailUiEvent) -> Unit = { },
+) {
     if (postsUiState.post != null) {
         PostDetail(postsUiState.post)
     }

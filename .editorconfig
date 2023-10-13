@@ -1,0 +1,8 @@
+root = true
+
+[*.{kt,kts}]
+
+ktlint_standard_function-naming = disabled
+ktlint_standard_annotation = disabled
+ktlint_standard_no-empty-first-line-in-class-body = disabled
+ktlint_standard_trailing-comma-on-call-site = disabled

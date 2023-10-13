@@ -22,5 +22,3 @@ interface AccessTokenApi {
         private const val DEVICE_ID = "device_id"
     }
 }
-
-

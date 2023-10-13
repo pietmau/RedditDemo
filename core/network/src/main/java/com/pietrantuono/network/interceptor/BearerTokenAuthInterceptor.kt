@@ -11,7 +11,7 @@ class BearerTokenAuthInterceptor constructor(
     private val host: String = HOST,
     private val tokenManager: TokenManager,
     private val accessTokenApiClient: RetrofitAccessTokenApiClient,
-    private val logger: Logger
+    private val logger: Logger,
 ) : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -24,12 +24,19 @@ class BearerTokenAuthInterceptor constructor(
         return response.takeIf { response.code != UNAUTHORIZED } ?: getNewTokenAndDoRequest(request, chain)
     }
 
-    private fun getNewTokenAndDoRequest(request: Request, chain: Interceptor.Chain): Response {
+    private fun getNewTokenAndDoRequest(
+        request: Request,
+        chain: Interceptor.Chain,
+    ): Response {
         val token = getNewToken() ?: return chain.proceed(request)
         return doRequest(request, token, chain)
     }
 
-    private fun doRequest(request: Request, token: String, chain: Interceptor.Chain): Response {
+    private fun doRequest(
+        request: Request,
+        token: String,
+        chain: Interceptor.Chain,
+    ): Response {
         val newRequest = request.newBuilder().header(AUTHORIZATION, "$BEARER $token").build()
         return chain.proceed(newRequest)
     }

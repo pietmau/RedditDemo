@@ -1,11 +1,11 @@
 package com.pietrantuono.posts
 
 import com.google.common.truth.Truth.assertThat
+import com.pietrantuono.common.model.reddit.Post
 import com.pietrantuono.network.api.reddit.RedditApiClient
 import com.pietrantuono.network.entity.reddit.NetworkRedditResponseEntity
 import com.pietrantuono.network.networkchecker.NetworkChecker
 import com.pietrantuono.persistence.DatabaseClient
-import com.pietrantuono.common.model.reddit.Post
 import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify

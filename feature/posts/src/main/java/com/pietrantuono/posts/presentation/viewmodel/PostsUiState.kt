@@ -14,5 +14,6 @@ data class PostUiModel(
 
 sealed class NavigationDestination {
     object None : NavigationDestination()
+
     data class PostDetails(val postId: String) : NavigationDestination()
 }

@@ -16,4 +16,3 @@ internal fun PostsDetail(id: String?) {
         viewModel.accept(it)
     }
 }
-

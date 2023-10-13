@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class AndroidLogger @Inject constructor() : Logger {
     override fun logException(exception: Exception) {
-        /* no-op */ //TODO
+        // TODO
     }
 }

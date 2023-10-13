@@ -16,7 +16,10 @@ import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.OnPostClicked
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiState
 
 @Composable
-fun PostsScreen(postsUiState: PostsUiState = PostsUiState(), events: (PostsUiEvent) -> Unit = {}) {
+fun PostsScreen(
+    postsUiState: PostsUiState = PostsUiState(),
+    events: (PostsUiEvent) -> Unit = {},
+) {
     LazyColumn {
         items(
             items = postsUiState.posts

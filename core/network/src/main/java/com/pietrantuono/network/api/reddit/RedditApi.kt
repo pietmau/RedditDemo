@@ -13,7 +13,6 @@ interface RedditApi {
         @QueryMap queryMap: Map<String, String>,
     ): NetworkRedditResponseEntity
 
-
     private companion object {
         private const val SUBREDDIT = "subReddit"
     }

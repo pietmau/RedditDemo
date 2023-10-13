@@ -22,5 +22,4 @@ class DatabaseClientImpl @Inject constructor(
     override suspend fun getPosts(limit: Int) = redditDao.getPosts().map { postWithImagesEntityToPostMapper.map(it) }
 
     override suspend fun getPostById(id: String): Post? = redditDao.getPostById(id)?.let { postWithImagesEntityToPostMapper.map(it) }
-
 }

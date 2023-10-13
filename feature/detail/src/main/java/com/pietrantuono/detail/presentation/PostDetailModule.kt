@@ -13,5 +13,4 @@ interface PostDetailModule {
 
     @Binds
     fun bindPostDetailRepository(repository: PostDetailRepositoryImpl): PostDetailRepository
-
 }

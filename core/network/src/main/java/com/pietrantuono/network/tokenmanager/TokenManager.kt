@@ -7,5 +7,4 @@ interface TokenManager {
     fun setToken(token: String)
 
     fun getDeviceId(): String
-
 }

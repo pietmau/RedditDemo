@@ -29,6 +29,5 @@ interface PostsModule {
 
         @Provides
         fun provideCoroutineContext(): CoroutineContext = Dispatchers.IO
-
     }
 }

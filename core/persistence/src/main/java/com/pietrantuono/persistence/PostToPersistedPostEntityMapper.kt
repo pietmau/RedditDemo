@@ -1,8 +1,8 @@
 package com.pietrantuono.persistence
 
 import com.pietrantuono.common.Mapper
-import com.pietrantuono.persistence.entity.PersistedPostEntity
 import com.pietrantuono.common.model.reddit.Post
+import com.pietrantuono.persistence.entity.PersistedPostEntity
 import javax.inject.Inject
 
 class PostToPersistedPostEntityMapper @Inject constructor() : Mapper<Post, PersistedPostEntity> {

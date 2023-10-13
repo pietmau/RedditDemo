@@ -1,7 +1,6 @@
 package com.pietrantuono.posts
 
 import com.pietrantuono.common.Mapper
-import com.pietrantuono.common.model.reddit.Image
 import com.pietrantuono.common.model.reddit.Post
 import com.pietrantuono.network.entity.reddit.NetworkDataEntity
 import com.pietrantuono.network.entity.reddit.NetworkRedditResponseEntity
@@ -12,7 +11,8 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetworkRedditRespon
     override fun map(input: NetworkRedditResponseEntity): List<Post> {
         val posts = filterNullPosts(input)
         return posts.map { (kind, data) ->
-            Post(kind = kind,
+            Post(
+                kind = kind,
                 subreddit = data.subreddit,
                 thumbnail = data.thumbnail,
                 title = data.title,
@@ -26,7 +26,8 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetworkRedditRespon
                 url = data.url,
                 score = data.score,
                 createdUtc = data.createdUtc,
-                urlOverriddenByDest = data.urlOverriddenByDest)
+                urlOverriddenByDest = data.urlOverriddenByDest
+            )
         }
     }
 

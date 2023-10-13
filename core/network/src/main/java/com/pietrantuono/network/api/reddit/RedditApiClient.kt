@@ -4,5 +4,8 @@ import com.pietrantuono.network.entity.reddit.NetworkRedditResponseEntity
 
 interface RedditApiClient {
 
-    suspend fun getNewPosts(subReddit: String,limit:Int): NetworkRedditResponseEntity
+    suspend fun getNewPosts(
+        subReddit: String,
+        limit: Int,
+    ): NetworkRedditResponseEntity
 }

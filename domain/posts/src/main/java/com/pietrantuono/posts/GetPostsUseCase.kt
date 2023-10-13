@@ -4,7 +4,9 @@ import com.pietrantuono.common.UseCase
 import com.pietrantuono.common.model.reddit.Post
 import javax.inject.Inject
 
-class GetPostsUseCase @Inject constructor(private val repository: PostsRepository) : UseCase<GetPostsUseCase.Params, List<Post>> {
+class GetPostsUseCase @Inject constructor(
+    private val repository: PostsRepository,
+) : UseCase<GetPostsUseCase.Params, List<Post>> {
 
     override suspend fun execute(params: Params) = repository.getPosts(params.subReddit, params.limit)
 

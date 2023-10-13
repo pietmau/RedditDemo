@@ -40,7 +40,7 @@ fun RedditCard(
                 start = smallPadding,
                 end = smallPadding
             )
-            .defaultMinSize(minHeight = dimensionResource(R.dimen.default_size))//TODO Externzalize
+            .defaultMinSize(minHeight = dimensionResource(R.dimen.default_size)) // TODO Externzalize
     ) {
         Row(
             modifier = Modifier
@@ -50,11 +50,10 @@ fun RedditCard(
         ) {
             ThumbNailImage(post)
             Column(
-                modifier = Modifier
-                    .padding(
-                        start = smallPadding,
-                        end = smallPadding
-                    ),
+                modifier = Modifier.padding(
+                    start = smallPadding,
+                    end = smallPadding
+                ),
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
@@ -88,4 +87,3 @@ private fun ThumbNailImage(post: PostUiModel = PostUiModel(title = "Title", id =
         Spacer(modifier = Modifier.width(dimensionResource(R.dimen.small_padding)))
     }
 }
-

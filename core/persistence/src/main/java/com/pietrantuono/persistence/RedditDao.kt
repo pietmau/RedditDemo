@@ -19,5 +19,4 @@ interface RedditDao {
 
     @Query("SELECT * FROM persistedpostentity  WHERE id = :id")
     suspend fun getPostById(id: String): PersistedPostEntity?
-
 }

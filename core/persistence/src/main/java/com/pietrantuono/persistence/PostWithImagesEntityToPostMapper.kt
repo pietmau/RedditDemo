@@ -6,21 +6,22 @@ import com.pietrantuono.persistence.entity.PersistedPostEntity
 import javax.inject.Inject
 
 class PostWithImagesEntityToPostMapper @Inject constructor() : Mapper<PersistedPostEntity, Post> {
-    override fun map(post: PersistedPostEntity) = Post(
-        title = post.title,
-        author = post.author,
-        created = post.created,
-        thumbnail = post.thumbnail,
-        url = post.url,
-        score = post.score,
-        permalink = post.permalink,
-        kind = post.kind,
-        subreddit = post.subreddit,
-        subredditId = post.subredditId,
-        id = post.id,
-        numComments = post.numComments,
-        ups = post.ups,
-        createdUtc = post.createdUtc,
-        urlOverriddenByDest = post.urlOverriddenByDest
-    )
+    override fun map(input: PersistedPostEntity) =
+        Post(
+            title = input.title,
+            author = input.author,
+            created = input.created,
+            thumbnail = input.thumbnail,
+            url = input.url,
+            score = input.score,
+            permalink = input.permalink,
+            kind = input.kind,
+            subreddit = input.subreddit,
+            subredditId = input.subredditId,
+            id = input.id,
+            numComments = input.numComments,
+            ups = input.ups,
+            createdUtc = input.createdUtc,
+            urlOverriddenByDest = input.urlOverriddenByDest
+        )
 }
