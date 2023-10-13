@@ -1,5 +1,6 @@
 package com.pietrantuono.detail.presentation.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
@@ -14,11 +15,16 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class DetailViewModel @Inject constructor(
     private val detailUseCase: GetPostDetailUseCase,
     private val mapper: DetailMapper,
+    private val handle: SavedStateHandle,
     coroutineContext: CoroutineContext,
     logger: Logger,
 ) : RedditViewModel<DetailUiState, DetailUiEvent>(coroutineContext, logger) {
 
     override val _uiState: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState())
+
+    init {
+        handle.get<String>(ID)?.let { getPostDetail(it) }
+    }
 
     override fun accept(uiEvent: DetailUiEvent) {
         when (uiEvent) {
@@ -26,16 +32,17 @@ class DetailViewModel @Inject constructor(
         }
     }
 
-    private fun getPostDetail(id: String?) {
-        if (id == null) {
-            updateState { copy(loading = false, error = true) }
-        } else {
-            launch {
-                val post = detailUseCase.execute(Params(id))
-                post?.let {
-                    updateState { copy(loading = false, post = mapper.map(it)) }
-                }
+    private fun getPostDetail(id: String) {
+        handle[ID] = id
+        launch {
+            val post = detailUseCase.execute(Params(id))
+            post?.let {
+                updateState { copy(loading = false, post = mapper.map(it)) }
             }
         }
+    }
+
+    private companion object {
+        private const val ID = "id"
     }
 }

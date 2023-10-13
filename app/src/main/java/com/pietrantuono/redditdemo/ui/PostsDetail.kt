@@ -9,7 +9,7 @@ import com.pietrantuono.detail.presentation.viewmodel.DetailUiState
 import com.pietrantuono.detail.presentation.viewmodel.DetailViewModel
 
 @Composable
-internal fun PostsDetail(id: String?) {
+internal fun PostsDetail(id: String) {
     val viewModel = hiltViewModel<DetailViewModel>()
     val postsUiState by viewModel.uiState.collectAsStateWithLifecycle(DetailUiState())
     DetailScreen(id, postsUiState) {

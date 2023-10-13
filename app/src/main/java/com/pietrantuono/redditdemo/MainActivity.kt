@@ -35,7 +35,8 @@ class MainActivity : ComponentActivity() {
                         route = "$DETAIL/{$ID}",
                         arguments = listOf(navArgument(ID) { type = NavType.StringType })
                     ) { backStackEntry ->
-                        PostsDetail(backStackEntry.arguments?.getString(ID))
+                        val postId = backStackEntry.arguments?.getString(ID) ?: return@composable
+                        PostsDetail(postId)
                     }
                 }
             }
