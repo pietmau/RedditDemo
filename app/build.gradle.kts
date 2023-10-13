@@ -52,6 +52,7 @@ android {
 
 dependencies {
     implementation(project(":feature:posts"))
+    implementation(project(":feature:detail"))
     implementation(project(":core:common"))
 
     // Hilt.

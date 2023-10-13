@@ -19,6 +19,7 @@ class DetailViewModel @Inject constructor(
 ) : RedditViewModel<DetailUiState, DetailUiEvent>(coroutineContext, logger) {
 
     override val _uiState: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState())
+
     override fun accept(uiEvent: DetailUiEvent) {
         when (uiEvent) {
             is GetPostDetail -> getPostDetail(uiEvent.id)

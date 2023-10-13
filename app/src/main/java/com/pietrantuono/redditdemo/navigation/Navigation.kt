@@ -16,11 +16,11 @@ internal const val DETAIL = "detail"
 
 
 @Composable
-internal fun RedditNavHost(startDestination: String, block: NavGraphBuilder.(NavHostController) -> Unit) {
+internal fun RedditNavHost(block: NavGraphBuilder.(NavHostController) -> Unit) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = POSTS
     ) {
         block(navController)
     }

@@ -16,7 +16,3 @@ data class ImageUiModel(
     val width: Int? = null,
     val height: Int? = null,
 )
-
-sealed class DetailUiEvent {
-    data class GetPostDetail(val id: String) : DetailUiEvent()
-}
