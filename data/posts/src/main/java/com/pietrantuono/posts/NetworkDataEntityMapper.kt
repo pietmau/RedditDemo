@@ -6,7 +6,8 @@ import com.pietrantuono.network.entity.reddit.NetworkDataEntity
 import com.pietrantuono.network.entity.reddit.NetworkRedditResponseEntity
 import javax.inject.Inject
 
-class NetworkDataEntityMapper @Inject constructor() : Mapper<NetworkRedditResponseEntity, List<Post>> {
+class NetworkDataEntityMapper @Inject constructor() :
+    Mapper<NetworkRedditResponseEntity, List<Post>> {
 
     override fun map(input: NetworkRedditResponseEntity): List<Post> {
         val posts = filterNullPosts(input)
@@ -26,12 +27,12 @@ class NetworkDataEntityMapper @Inject constructor() : Mapper<NetworkRedditRespon
                 url = data.url,
                 score = data.score,
                 createdUtc = data.createdUtc,
-                urlOverriddenByDest = data.urlOverriddenByDest
+                urlOverriddenByDest = data.urlOverriddenByDest,
+                selfText = data.selfText,
             )
         }
     }
 
     private fun filterNullPosts(input: NetworkRedditResponseEntity): List<Pair<String?, NetworkDataEntity>> =
-        // TODO CLEAN THIS UP
         input.data.posts.mapNotNull { post -> post.data?.let { data -> post.kind to data } }
 }

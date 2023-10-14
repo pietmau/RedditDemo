@@ -8,14 +8,9 @@ data class DetailUiState(
 
 data class PostDetailUiModel(
     val id: String,
-    val title: String? = null,
+    val title: String,
+    val text: String,
     val author: String? = null,
     val created: Long? = null,
     val image: String? = null
-)
-
-data class ImageUiModel(
-    val url: String? = null,
-    val width: Int? = null,
-    val height: Int? = null
 )

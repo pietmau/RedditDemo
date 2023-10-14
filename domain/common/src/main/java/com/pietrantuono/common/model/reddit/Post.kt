@@ -3,7 +3,7 @@ package com.pietrantuono.common.model.reddit
 data class Post(
     val id: String,
     val kind: String? = null,
-    val urlOverriddenByDest: String,
+    val urlOverriddenByDest: String? = null,
     val subreddit: String? = null,
     val thumbnail: String? = null,
     val title: String? = null,
@@ -16,4 +16,5 @@ data class Post(
     val permalink: String? = null,
     val url: String? = null,
     val score: Int? = null,
+    val selfText: String? = null
 )

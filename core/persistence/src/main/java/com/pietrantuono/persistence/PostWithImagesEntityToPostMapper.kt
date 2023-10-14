@@ -21,6 +21,7 @@ class PostWithImagesEntityToPostMapper @Inject constructor() : Mapper<PersistedP
         numComments = input.numComments,
         ups = input.ups,
         createdUtc = input.createdUtc,
-        urlOverriddenByDest = input.urlOverriddenByDest
+        urlOverriddenByDest = input.urlOverriddenByDest,
+        selfText = input.selfText
     )
 }

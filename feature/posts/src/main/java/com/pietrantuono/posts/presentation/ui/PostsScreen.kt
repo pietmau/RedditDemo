@@ -3,6 +3,7 @@ package com.pietrantuono.posts.presentation.ui
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -53,7 +54,7 @@ private fun Content(
     posts: List<PostUiModel>,
     events: (PostsUiEvent) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(Modifier.padding(dimensionResource(R.dimen.small_padding))) {
         items(items = posts) {
             RedditCard(
                 modifier = Modifier.clickable { events(OnPostClicked(it.id)) },

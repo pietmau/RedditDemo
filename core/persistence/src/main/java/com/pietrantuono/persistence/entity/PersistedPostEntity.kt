@@ -38,5 +38,7 @@ data class PersistedPostEntity(
     @ColumnInfo(name = "created_utc")
     val createdUtc: Long? = null,
     @ColumnInfo(name = "url_overridden_by_dest")
-    val urlOverriddenByDest: String
+    val urlOverriddenByDest: String? = null,
+    @ColumnInfo(name = "selftext")
+    val selfText: String? = null
 )
