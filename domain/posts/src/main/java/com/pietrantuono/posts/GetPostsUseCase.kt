@@ -16,7 +16,7 @@ class GetPostsUseCase @Inject constructor(
     data class Params(val subReddit: String = DEFAULT_SUBREDDIT, val limit: Int = DEFAULT_LIMIT) {
         private companion object {
             private const val DEFAULT_SUBREDDIT = "pics"
-            private const val DEFAULT_LIMIT = 30
+            private const val DEFAULT_LIMIT = 100
         }
     }
 }
