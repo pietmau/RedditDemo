@@ -72,9 +72,6 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.navigation.compose)
     implementation(libs.activity.ktx)
-
-    debugImplementation(libs.ui.tooling)
-    debugImplementation(libs.ui.test.manifest)
 }
 kapt {
     correctErrorTypes = true
