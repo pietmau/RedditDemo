@@ -1,8 +1,6 @@
 package com.pietrantuono.network.interceptor
 
 import com.google.common.truth.Truth.assertThat
-import com.pietrantuono.common.Logger
-import com.pietrantuono.network.api.accesstoken.RetrofitAccessTokenApiClient
 import com.pietrantuono.network.tokenmanager.TokenManager
 import io.mockk.Called
 import io.mockk.every
@@ -14,36 +12,29 @@ import okhttp3.Response
 import org.junit.Test
 
 class BearerTokenAuthInterceptorTest {
+    private val newRequest = mockk<Request>()
     private val builder = mockk<Request.Builder>(relaxed = true) {
         every { header(any(), any()) } returns this
-        every { build() } returns mockk()
+        every { build() } returns newRequest
     }
-    private val request: Request = mockk() {
+    private val request: Request = mockk {
         every { url } returns mockk {
             every { host } returns HOST
         }
         every { newBuilder() } returns builder
     }
     private val response: Response = mockk(relaxed = true)
-    private val chain: Chain = mockk() {
+    private val chain: Chain = mockk {
         every { proceed(any()) } returns response
         every { request() } returns request
     }
     private val tokenManager: TokenManager = mockk {
-        every { getToken() } returns TOKEN
-        every { getDeviceId() } returns DEVICE_ID
+        every { getStoredToken() } returns TOKEN
+        every { getNewToken() } returns TOKEN
     }
-    private val accessTokenApiClient: RetrofitAccessTokenApiClient = mockk() {
-        every { getAccessToken(any()) } returns mockk {
-            every { accessToken } returns TOKEN
-        }
-    }
-    private val logger: Logger = mockk(relaxed = true)
     private val bearerTokenAuthInterceptor = BearerTokenAuthInterceptor(
         HOST,
-        tokenManager,
-        accessTokenApiClient,
-        logger
+        tokenManager
     )
 
     @Test
@@ -61,49 +52,53 @@ class BearerTokenAuthInterceptorTest {
     }
 
     @Test
-    fun `given when request url host is not equal to host when called then proceeds`() {
+    fun `given when request url host is not equal to host when called then does a new request`() {
         // When
         val actual = bearerTokenAuthInterceptor.intercept(chain)
 
         // Then
-        verify {
-            tokenManager.getToken()
-            request.newBuilder()
-            builder.header(any(), any())
-            builder.build()
-        }
-        assertThat(actual).isEqualTo(response)
+        verifyMakeNewRequest(actual)
     }
 
     @Test
     fun `given token is not stored when called then gets a new token`() {
         // Given
-        every { tokenManager.getToken() } returns null
+        every { tokenManager.getStoredToken() } returns null
 
         // When
         val actual = bearerTokenAuthInterceptor.intercept(chain)
 
         // Then
-        verifyGetNewTokenAndDoRequest(actual)
+        verifyGetNewTokenAndMakeNewRequest(actual)
     }
 
     @Test
-    fun `given token is stored when called then proceeds`() {
+    fun `given token is stored but expired when called then then gets a new token`() {
         // Given
-        every { tokenManager.getToken() } returns null
+        every { response.code } returns UNAUTHORIZED
 
         // When
         val actual = bearerTokenAuthInterceptor.intercept(chain)
 
         // Then
-        verifyGetNewTokenAndDoRequest(actual)
+        verifyGetNewTokenAndMakeNewRequest(actual)
     }
 
-    private fun verifyGetNewTokenAndDoRequest(actual: Response) {
+    private fun verifyGetNewTokenAndMakeNewRequest(actual: Response) {
         verify {
-            tokenManager.getToken()
-            accessTokenApiClient.getAccessToken(DEVICE_ID)
-            tokenManager.setToken(TOKEN)
+            tokenManager.getStoredToken()
+            tokenManager.getNewToken()
+        }
+        verifyMakeNewRequest(actual)
+    }
+
+    private fun verifyMakeNewRequest(actual: Response) {
+        verify {
+            tokenManager.getStoredToken()
+            request.newBuilder()
+            builder.header(any(), any())
+            builder.build()
+            chain.proceed(newRequest)
         }
         assertThat(actual).isEqualTo(response)
     }
@@ -112,6 +107,6 @@ class BearerTokenAuthInterceptorTest {
         private const val HOST = "oauth.reddit.com"
         private const val GOOGLE = "http://www.google.com"
         private const val TOKEN = "token"
-        private const val DEVICE_ID = "deviceId"
+        private const val UNAUTHORIZED = 401
     }
 }

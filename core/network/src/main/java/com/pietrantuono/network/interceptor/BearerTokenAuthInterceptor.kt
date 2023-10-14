@@ -1,18 +1,14 @@
 package com.pietrantuono.network.interceptor
 
-import com.pietrantuono.common.Logger
-import com.pietrantuono.network.api.accesstoken.RetrofitAccessTokenApiClient
 import com.pietrantuono.network.tokenmanager.TokenManager
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Request
 import okhttp3.Response
 
-class BearerTokenAuthInterceptor constructor(
+class BearerTokenAuthInterceptor(
     private val host: String = HOST,
-    private val tokenManager: TokenManager,
-    private val accessTokenApiClient: RetrofitAccessTokenApiClient,
-    private val logger: Logger
+    private val tokenManager: TokenManager
 ) : Interceptor {
 
     override fun intercept(chain: Chain): Response {
@@ -20,8 +16,8 @@ class BearerTokenAuthInterceptor constructor(
         if (request.url.host != host) {
             return chain.proceed(request)
         }
-        val token = getTokenFromStore() ?: return getNewTokenAndDoRequest(request, chain)
-        val response = doRequest(request, token, chain)
+        val token = tokenManager.getStoredToken() ?: return getNewTokenAndDoRequest(request, chain)
+        val response = makeNewRequest(request, token, chain)
         return response.takeIf {
             response.code != UNAUTHORIZED
         } ?: getNewTokenAndDoRequest(request, chain)
@@ -31,11 +27,11 @@ class BearerTokenAuthInterceptor constructor(
         request: Request,
         chain: Chain
     ): Response {
-        val token = getNewToken() ?: return chain.proceed(request)
-        return doRequest(request, token, chain)
+        val token = tokenManager.getNewToken() ?: return chain.proceed(request)
+        return makeNewRequest(request, token, chain)
     }
 
-    private fun doRequest(
+    private fun makeNewRequest(
         request: Request,
         token: String,
         chain: Chain
@@ -43,19 +39,6 @@ class BearerTokenAuthInterceptor constructor(
         val newRequest = request.newBuilder().header(AUTHORIZATION, "$BEARER $token").build()
         return chain.proceed(newRequest)
     }
-
-    private fun getTokenFromStore() = tokenManager.getToken()
-
-    private fun getNewToken(): String? =
-        try {
-            val deviceId = tokenManager.getDeviceId()
-            val token = accessTokenApiClient.getAccessToken(deviceId)
-            token?.accessToken?.let { tokenManager.setToken(it) }
-            tokenManager.getToken()
-        } catch (e: Exception) {
-            logger.logException(e)
-            null
-        }
 
     private companion object {
         private const val AUTHORIZATION = "Authorization"
