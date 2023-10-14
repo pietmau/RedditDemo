@@ -10,9 +10,9 @@ data class PostsUiState(
 
 data class PostUiModel(
     val id: String,
-    val title: String? = null,
+    val title: String,
     val thumbnail: String? = null,
-    val author: String? = null,
+    val author: String,
     val created: Long? = null
 )
 

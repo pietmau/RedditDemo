@@ -39,6 +39,7 @@ class PostsScreenTest {
                         PostUiModel(
                             id = EMPTY_STRING,
                             title = TITLE,
+                            author = EMPTY_STRING,
                         )
                     )
                 )
@@ -64,6 +65,7 @@ class PostsScreenTest {
                         PostUiModel(
                             id = EMPTY_STRING,
                             title = TITLE,
+                            author = EMPTY_STRING
                         )
                     )
                 )

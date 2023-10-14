@@ -30,7 +30,7 @@ private const val EMPTY_STRING = ""
 @Composable
 fun RedditCard(
     modifier: Modifier = Modifier,
-    post: PostUiModel = PostUiModel(title = TITLE, id = EMPTY_STRING)
+    post: PostUiModel = PostUiModel(title = TITLE, id = EMPTY_STRING, author = EMPTY_STRING)
 ) {
     val smallPadding = dimensionResource(R.dimen.small_padding)
     Card(
@@ -57,12 +57,12 @@ fun RedditCard(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = post.author ?: EMPTY_STRING, // TODO add better default
+                    text = post.author,
                     style = MaterialTheme.typography.labelSmall
                 )
                 Text(
                     modifier = Modifier.padding(top = smallPadding),
-                    text = post.title ?: EMPTY_STRING, // TODO add better default
+                    text = post.title,
                     style = MaterialTheme.typography.titleSmall
                 )
             }
@@ -71,7 +71,9 @@ fun RedditCard(
 }
 
 @Composable
-private fun ThumbNailImage(post: PostUiModel = PostUiModel(title = "Title", id = EMPTY_STRING)) {
+private fun ThumbNailImage(
+    post: PostUiModel = PostUiModel(title = "Title", id = EMPTY_STRING, author = EMPTY_STRING)
+) {
     var hideImage by rememberSaveable { mutableStateOf(false) }
     if (!hideImage) {
         AsyncImage(

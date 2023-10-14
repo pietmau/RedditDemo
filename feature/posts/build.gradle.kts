@@ -1,5 +1,4 @@
-@Suppress("DSL_SCOPE_VIOLATION")
-plugins {
+@Suppress("DSL_SCOPE_VIOLATION") plugins {
     kotlin("kapt")
     alias(libs.plugins.hilt)
     alias(libs.plugins.com.android.library)
@@ -9,7 +8,7 @@ plugins {
 
 android {
     namespace = "com.pietrantuono.home"
-    compileSdk = 34 // TODO fix everywhere
+    compileSdk = 34
 
     defaultConfig {
         minSdk = 24
