@@ -11,3 +11,4 @@
 - domain/posts/src/test
 - feature/posts/src/test
 - feature/detail/src/test
+- core/network/src/test

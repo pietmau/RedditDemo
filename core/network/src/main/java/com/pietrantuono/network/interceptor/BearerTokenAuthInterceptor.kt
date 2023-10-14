@@ -4,6 +4,7 @@ import com.pietrantuono.common.Logger
 import com.pietrantuono.network.api.accesstoken.RetrofitAccessTokenApiClient
 import com.pietrantuono.network.tokenmanager.TokenManager
 import okhttp3.Interceptor
+import okhttp3.Interceptor.Chain
 import okhttp3.Request
 import okhttp3.Response
 
@@ -14,7 +15,7 @@ class BearerTokenAuthInterceptor constructor(
     private val logger: Logger
 ) : Interceptor {
 
-    override fun intercept(chain: Interceptor.Chain): Response {
+    override fun intercept(chain: Chain): Response {
         val request = chain.request()
         if (request.url.host != host) {
             return chain.proceed(request)
@@ -28,7 +29,7 @@ class BearerTokenAuthInterceptor constructor(
 
     private fun getNewTokenAndDoRequest(
         request: Request,
-        chain: Interceptor.Chain
+        chain: Chain
     ): Response {
         val token = getNewToken() ?: return chain.proceed(request)
         return doRequest(request, token, chain)
@@ -37,7 +38,7 @@ class BearerTokenAuthInterceptor constructor(
     private fun doRequest(
         request: Request,
         token: String,
-        chain: Interceptor.Chain
+        chain: Chain
     ): Response {
         val newRequest = request.newBuilder().header(AUTHORIZATION, "$BEARER $token").build()
         return chain.proceed(newRequest)
