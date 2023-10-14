@@ -19,12 +19,16 @@ abstract class RedditViewModel<UiState, UiEvent>(
     val uiState: Flow<UiState>
         get() = _uiState
 
-    protected fun launch(block: suspend CoroutineScope.() -> Unit) {
+    protected fun launch(
+        onError: (Exception) -> Unit = {},
+        block: suspend CoroutineScope.() -> Unit
+    ) {
         viewModelScope.launch(coroutineContext) {
             try {
                 block()
-            } catch (e: Exception) {
-                logger.logException(e)
+            } catch (exception: Exception) {
+                onError(exception)
+                logger.logException(exception)
             }
         }
     }

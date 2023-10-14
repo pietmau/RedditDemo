@@ -26,7 +26,7 @@ class PostsViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val coroutineContext = UnconfinedTestDispatcher()
-    private val viewModel = PostsViewModel(useCase, mapper, coroutineContext, mockk())
+    private val viewModel = PostsViewModel(useCase, mapper, coroutineContext, mockk(relaxed = true))
 
     @Test
     fun `when starts then posts are empty`() = runTest {
@@ -71,6 +71,21 @@ class PostsViewModelTest {
 
             // Then
             assertThat(expectMostRecentItem().navDestination).isEqualTo(None)
+        }
+    }
+
+    @Test
+    fun `given usecase throws and error when gets posts then stops loading`() = runTest {
+        viewModel.uiState.test {
+            // Given
+            coEvery { useCase.execute(any()) } throws Exception()
+
+            // When
+            viewModel.accept(GetPosts)
+
+            // Then
+            assertThat(awaitItem().isLoading).isTrue()
+            assertThat(awaitItem().isLoading).isFalse()
         }
     }
 

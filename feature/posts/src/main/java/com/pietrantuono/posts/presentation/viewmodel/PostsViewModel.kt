@@ -41,14 +41,17 @@ class PostsViewModel @Inject constructor(
     }
 
     private fun getInitialPosts() {
-        launch {
-            val posts = useCase.execute(Params())
-            updateState {
-                copy(
-                    isLoading = false,
-                    posts = posts.map { mapper.map(it) }
-                )
-            }
-        }
+        launch(
+            block = {
+                val posts = useCase.execute(Params())
+                updateState {
+                    copy(
+                        isLoading = false,
+                        posts = posts.map { mapper.map(it) }
+                    )
+                }
+            },
+            onError = { updateState { copy(isLoading = false) } }
+        )
     }
 }
