@@ -9,7 +9,7 @@ plugins {
 
 android {
     namespace = "com.pietrantuono.home"
-    compileSdk = 33
+    compileSdk = 34 // TODO fix everywhere
 
     defaultConfig {
         minSdk = 24
@@ -21,7 +21,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
     compileOptions {
@@ -67,6 +70,9 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.truth)
     testImplementation(libs.kotlinx.coroutines.test)
+
+    androidTestImplementation(libs.ui.test.junit4)
+    debugImplementation(libs.ui.test.manifest)
 }
 kapt {
     correctErrorTypes = true

@@ -4,6 +4,7 @@
 - use encrypted share dpreferences
 - unify dimens tokens!!!
 - remove loading in main screen when error!!!!!!!!!!!!!!!!
+- celan TOML of unused and wihtoyt version liobs!!!
 
 # Some unit tests are in:
 
@@ -12,3 +13,7 @@
 - feature/posts/src/test
 - feature/detail/src/test
 - core/network/src/test
+
+# Some UI tests are in:
+
+- feature/posts/src/androidTest

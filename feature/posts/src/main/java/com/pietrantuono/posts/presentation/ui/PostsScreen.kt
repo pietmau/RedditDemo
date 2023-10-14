@@ -14,6 +14,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import com.pietrantuono.home.R
 import com.pietrantuono.posts.presentation.viewmodel.PostUiModel
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent
@@ -41,8 +44,13 @@ private fun Loading() {
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+        val contentDescription = stringResource(R.string.loading)
         CircularProgressIndicator(
-            modifier = Modifier.width(dimensionResource(R.dimen.default_size)),
+            modifier = Modifier
+                .width(dimensionResource(R.dimen.default_size))
+                .semantics {
+                    this.contentDescription = contentDescription
+                },
             color = MaterialTheme.colorScheme.surfaceVariant,
             trackColor = MaterialTheme.colorScheme.secondary,
         )
