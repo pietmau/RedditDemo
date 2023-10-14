@@ -10,7 +10,7 @@ import com.pietrantuono.persistence.entity.PersistedPostEntity
 interface RedditDao {
 
     @Insert(entity = PersistedPostEntity::class, onConflict = IGNORE)
-    suspend fun insert(post: PersistedPostEntity): Long
+    suspend fun insertAll(post: List<PersistedPostEntity>)
 
     @Query("SELECT * FROM persistedpostentity  ORDER BY created_utc DESC LIMIT :limit")
     suspend fun getPosts(limit: Int): List<PersistedPostEntity>

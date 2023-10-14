@@ -12,7 +12,7 @@ import com.pietrantuono.posts.presentation.viewmodel.PostsUiState
 import com.pietrantuono.posts.presentation.viewmodel.PostsViewModel
 
 @Composable
-internal fun AllPosts(navigation: (NavigationDestination) -> Unit) {
+internal fun AllPosts(navigation: (NavigationDestination) -> Unit = {}) {
     val viewModel = hiltViewModel<PostsViewModel>()
     val postsUiState by viewModel.uiState.collectAsStateWithLifecycle(PostsUiState())
     PostsScreen(postsUiState) {

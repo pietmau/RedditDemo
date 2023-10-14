@@ -28,7 +28,6 @@ interface PersistenceModule {
                 name = DATABASE_NAME
             ).build()
             return DatabaseClientImpl(
-                redditDatabase = database,
                 redditDao = database.redditDao(),
                 postToPersistedPostEntityMapper = PostToPersistedPostEntityMapper(),
                 postWithImagesEntityToPostMapper = PostWithImagesEntityToPostMapper()

@@ -24,13 +24,11 @@ class MainActivity : ComponentActivity() {
         setContent {
             RedditDemoTheme {
                 RedditNavHost { controller ->
-
                     composable(route = POSTS) {
                         AllPosts { destination ->
                             controller.navigateTo(destination)
                         }
                     }
-
                     composable(
                         route = "$DETAIL/{$ID}",
                         arguments = listOf(navArgument(ID) { type = NavType.StringType })
