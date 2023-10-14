@@ -1,12 +1,12 @@
-- TODO add analytics and feature flkag
-- TDOO add limit to api and db
-- TODO select images
-- use encrypted share dpreferences
-- unify dimens tokens!!!
-- remove loading in main screen when error!!!!!!!!!!!!!!!!
-- celan TOML of unused and wihtoyt version liobs!!!
+### Assumptions
 
-# Some unit tests are in:
+
+### TODO
+- api key should not be in Git (it is now, for simplicity)
+- add pagination (Reddit supports it)
+- use encrypted shared preferences
+
+### Some unit tests are in
 
 - data/posts/src/test
 - domain/posts/src/test
@@ -14,6 +14,6 @@
 - feature/detail/src/test
 - core/network/src/test
 
-# Some UI tests are in:
+### Some UI tests are in
 
 - feature/posts/src/androidTest
