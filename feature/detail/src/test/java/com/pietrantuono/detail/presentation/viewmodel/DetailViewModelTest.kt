@@ -5,6 +5,7 @@ import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.pietrantuono.common.model.reddit.Post
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
 import com.pietrantuono.posts.GetPostDetailUseCase
 import com.pietrantuono.posts.GetPostDetailUseCase.Params
 import io.mockk.coEvery
@@ -39,6 +40,7 @@ class DetailViewModelTest {
             val state = awaitItem()
             assertThat(state.error).isFalse()
             assertThat(state.post).isNull()
+            assertThat(state.loading).isTrue()
         }
     }
 
@@ -52,6 +54,7 @@ class DetailViewModelTest {
             val state = expectMostRecentItem()
             assertThat(state.post).isEqualTo(model)
             assertThat(state.error).isFalse()
+            assertThat(state.loading).isTrue()
         }
     }
 
@@ -68,6 +71,22 @@ class DetailViewModelTest {
             val state = expectMostRecentItem()
             assertThat(state.post).isEqualTo(model)
             assertThat(state.error).isFalse()
+            assertThat(state.loading).isTrue()
+        }
+    }
+
+    @Test
+    fun `when image is loaded then stops loading`() = runTest {
+        viewModel.uiState.test {
+            // When
+            viewModel.accept(GetPostDetail(TEXT))
+            viewModel.accept(ImageLoaded)
+
+            // Then
+            val state = expectMostRecentItem()
+            assertThat(state.post).isEqualTo(model)
+            assertThat(state.error).isFalse()
+            assertThat(state.loading).isFalse()
         }
     }
 

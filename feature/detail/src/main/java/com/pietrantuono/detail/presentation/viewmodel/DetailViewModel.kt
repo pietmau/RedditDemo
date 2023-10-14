@@ -4,6 +4,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
 import com.pietrantuono.posts.GetPostDetailUseCase
 import com.pietrantuono.posts.GetPostDetailUseCase.Params
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,7 @@ class DetailViewModel @Inject constructor(
     override fun accept(uiEvent: DetailUiEvent) {
         when (uiEvent) {
             is GetPostDetail -> getPostDetail(uiEvent.id)
+            is ImageLoaded -> updateState { copy(loading = false) }
         }
     }
 
