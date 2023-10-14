@@ -50,7 +50,8 @@ class BearerTokenAuthInterceptor constructor(
         try {
             val deviceId = tokenManager.getDeviceId()
             val token = accessTokenApiClient.getAccessToken(deviceId)
-            token?.accessToken?.also { tokenManager.setToken(it) }
+            token?.accessToken?.let { tokenManager.setToken(it) }
+            tokenManager.getToken()
         } catch (e: Exception) {
             logger.logException(e)
             null

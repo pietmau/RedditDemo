@@ -31,8 +31,13 @@ class BearerTokenAuthInterceptorTest {
     }
     private val tokenManager: TokenManager = mockk {
         every { getToken() } returns TOKEN
+        every { getDeviceId() } returns DEVICE_ID
     }
-    private val accessTokenApiClient: RetrofitAccessTokenApiClient = mockk()
+    private val accessTokenApiClient: RetrofitAccessTokenApiClient = mockk() {
+        every { getAccessToken(any()) } returns mockk {
+            every { accessToken } returns TOKEN
+        }
+    }
     private val logger: Logger = mockk(relaxed = true)
     private val bearerTokenAuthInterceptor = BearerTokenAuthInterceptor(
         HOST,
@@ -70,9 +75,43 @@ class BearerTokenAuthInterceptorTest {
         assertThat(actual).isEqualTo(response)
     }
 
+    @Test
+    fun `given token is not stored when called then gets a new token`() {
+        // Given
+        every { tokenManager.getToken() } returns null
+
+        // When
+        val actual = bearerTokenAuthInterceptor.intercept(chain)
+
+        // Then
+        verifyGetNewTokenAndDoRequest(actual)
+    }
+
+    @Test
+    fun `given token is stored when called then proceeds`() {
+        // Given
+        every { tokenManager.getToken() } returns null
+
+        // When
+        val actual = bearerTokenAuthInterceptor.intercept(chain)
+
+        // Then
+        verifyGetNewTokenAndDoRequest(actual)
+    }
+
+    private fun verifyGetNewTokenAndDoRequest(actual: Response) {
+        verify {
+            tokenManager.getToken()
+            accessTokenApiClient.getAccessToken(DEVICE_ID)
+            tokenManager.setToken(TOKEN)
+        }
+        assertThat(actual).isEqualTo(response)
+    }
+
     private companion object {
         private const val HOST = "oauth.reddit.com"
         private const val GOOGLE = "http://www.google.com"
         private const val TOKEN = "token"
+        private const val DEVICE_ID = "deviceId"
     }
 }
