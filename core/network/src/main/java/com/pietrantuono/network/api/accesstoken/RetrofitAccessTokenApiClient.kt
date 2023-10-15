@@ -30,7 +30,7 @@ class RetrofitAccessTokenApiClient @Inject constructor() : AccessTokenApiClient 
             deviceId = deviceId
         ).execute().body()
 
-    private companion object { // TODO: 2020-01-15 Move to config.
+    private companion object {
         private const val BASE_URL = "https://www.reddit.com"
         private const val GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client"
         private const val REDIRECT_URI = "https://www.reddit.com"

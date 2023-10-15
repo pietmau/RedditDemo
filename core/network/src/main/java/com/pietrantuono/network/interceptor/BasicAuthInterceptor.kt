@@ -21,7 +21,7 @@ class BasicAuthInterceptor constructor(
         return chain.proceed(newRequest)
     }
 
-    private companion object { // TODO: 10/10/19 move to config.
+    private companion object {
         private const val HOST = "www.reddit.com"
         private const val AUTHORIZATION = "Authorization"
         private const val BASIC = "Basic"
