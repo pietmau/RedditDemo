@@ -3,7 +3,7 @@ package com.pietrantuono.redditdemo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.navigation.NavType
+import androidx.navigation.NavType.Companion.StringType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.pietrantuono.redditdemo.navigation.DETAIL
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     }
                     composable(
                         route = "$DETAIL/{$ID}",
-                        arguments = listOf(navArgument(ID) { type = NavType.StringType })
+                        arguments = listOf(navArgument(ID) { type = StringType })
                     ) { backStackEntry ->
                         val postId = backStackEntry.arguments?.getString(ID) ?: return@composable
                         PostsDetail(postId)
