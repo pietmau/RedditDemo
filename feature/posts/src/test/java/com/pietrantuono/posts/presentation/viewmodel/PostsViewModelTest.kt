@@ -26,7 +26,13 @@ class PostsViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val coroutineContext = UnconfinedTestDispatcher()
-    private val viewModel = PostsViewModel(useCase, mapper, coroutineContext, mockk(relaxed = true))
+    private val viewModel = PostsViewModel(
+        useCase = useCase,
+        mapper = mapper,
+        savedStateHandle = mockk(relaxed = true),
+        coroutineContext = coroutineContext,
+        logger = mockk(relaxed = true)
+    )
 
     @Test
     fun `when starts then posts are empty`() = runTest {

@@ -19,6 +19,9 @@ abstract class RedditViewModel<UiState, UiEvent>(
     val uiState: Flow<UiState>
         get() = _uiState
 
+    val latestState: UiState
+        get() = _uiState.value
+
     protected fun launch(
         onError: (Exception) -> Unit = {},
         block: suspend CoroutineScope.() -> Unit
