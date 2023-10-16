@@ -52,7 +52,12 @@ fun DetailScreen(
 
 @Composable
 private fun PostDetail(
-    post: PostDetailUiModel? = PostDetailUiModel(EMPTY_STRING, EMPTY_STRING, EMPTY_STRING),
+    post: PostDetailUiModel? = PostDetailUiModel(
+        EMPTY_STRING,
+        EMPTY_STRING,
+        EMPTY_STRING,
+        EMPTY_STRING
+    ),
     onImageLoaded: () -> Unit = {}
 ) {
     post ?: return
@@ -76,6 +81,11 @@ private fun PostDetail(
                     else -> Unit
                 }
             }
+        )
+        Text(
+            modifier = Modifier.align(Alignment.Start),
+            text = post.author,
+            style = MaterialTheme.typography.titleLarge,
         )
         Text(
             text = post.text,

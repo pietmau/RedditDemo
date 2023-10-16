@@ -21,7 +21,7 @@ class PostsViewModel @Inject constructor(
     private val mapper: PostsUiStateMapper,
     private val savedStateHandle: SavedStateHandle,
     coroutineContext: CoroutineContext,
-    logger: Logger,
+    logger: Logger
 ) : RedditViewModel<PostsUiState, PostsUiEvent>(coroutineContext, logger) {
 
     override val _uiState: MutableStateFlow<PostsUiState> = MutableStateFlow(PostsUiState())
@@ -35,19 +35,11 @@ class PostsViewModel @Inject constructor(
     }
 
     private fun navigationPerformed() {
-        updateState {
-            copy(
-                navDestination = None
-            )
-        }
+        updateState { copy(navDestination = None) }
     }
 
     private fun navigateToPost(postId: String) {
-        updateState {
-            copy(
-                navDestination = PostDetails(postId)
-            )
-        }
+        updateState { copy(navDestination = PostDetails(postId)) }
     }
 
     private fun getInitialPosts() {
@@ -63,13 +55,8 @@ class PostsViewModel @Inject constructor(
                     )
                 }
             },
-            onError = {
-                updateState {
-                    copy(
-                        isLoading = false
-                    )
-                }
-            })
+            onError = { updateState { copy(isLoading = false) } }
+        )
     }
 
     private suspend fun getPosts() =

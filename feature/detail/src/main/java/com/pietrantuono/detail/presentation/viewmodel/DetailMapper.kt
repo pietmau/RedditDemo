@@ -10,7 +10,7 @@ class DetailMapper @Inject constructor() : Mapper<Post, PostDetailUiModel> {
         PostDetailUiModel(
             id = input.id,
             title = input.title ?: EMPTY_STRING,
-            author = input.author,
+            author = input.author ?: EMPTY_STRING,
             created = input.created,
             image = input.urlOverriddenByDest,
             text = input.selfText ?: EMPTY_STRING

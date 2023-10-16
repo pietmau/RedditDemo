@@ -34,7 +34,7 @@ interface NetworkModule {
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
         @Provides
-        fun provideBearerTokenAuthInterceptor(tokenManager: TokenManager) = BearerTokenAuthInterceptor(
+        fun provideBearerTokenInterceptor(tokenManager: TokenManager) = BearerTokenAuthInterceptor(
             tokenManager = tokenManager
         )
 

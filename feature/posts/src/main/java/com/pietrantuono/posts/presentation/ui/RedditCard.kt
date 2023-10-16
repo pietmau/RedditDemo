@@ -21,11 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import coil.compose.AsyncImage
+import com.pietrantuono.common.EMPTY_STRING
 import com.pietrantuono.home.R
 import com.pietrantuono.posts.presentation.viewmodel.PostUiModel
 
 private const val TITLE = "Title"
-private const val EMPTY_STRING = ""
 
 @Composable
 fun RedditCard(
@@ -72,7 +72,7 @@ fun RedditCard(
 
 @Composable
 private fun ThumbNailImage(
-    post: PostUiModel = PostUiModel(title = "Title", id = EMPTY_STRING, author = EMPTY_STRING)
+    post: PostUiModel = PostUiModel(title = TITLE, id = EMPTY_STRING, author = EMPTY_STRING)
 ) {
     var hideImage by rememberSaveable { mutableStateOf(false) }
     if (!hideImage) {

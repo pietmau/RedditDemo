@@ -1,5 +1,6 @@
 package com.pietrantuono.posts.presentation.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.pietrantuono.posts.GetPostsUseCase
@@ -9,6 +10,7 @@ import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetPosts
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.NavigationPerformed
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.OnPostClicked
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
@@ -26,10 +28,13 @@ class PostsViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val coroutineContext = UnconfinedTestDispatcher()
+    private val savedStateHandle = mockk<SavedStateHandle>(relaxed = true) {
+        coEvery { get<Any>(any()) } returns null
+    }
     private val viewModel = PostsViewModel(
         useCase = useCase,
         mapper = mapper,
-        savedStateHandle = mockk(relaxed = true),
+        savedStateHandle = savedStateHandle,
         coroutineContext = coroutineContext,
         logger = mockk(relaxed = true)
     )
@@ -54,6 +59,7 @@ class PostsViewModelTest {
             val state = expectMostRecentItem()
             assertThat(state.isLoading).isFalse()
             assertThat(state.posts).containsExactly(model)
+            coVerify { useCase.execute(any()) }
         }
     }
 
@@ -95,7 +101,49 @@ class PostsViewModelTest {
         }
     }
 
+    @Test
+    fun `given posts are available when gets posts then updates loading`() = runTest {
+        viewModel.uiState.test {
+            // When
+            viewModel.accept(GetPosts)
+
+            // Then
+            assertThat(awaitItem().isLoading).isTrue()
+            assertThat(awaitItem().isLoading).isFalse()
+        }
+    }
+
+    @Test
+    fun `given posts received when gets posts then calls api once`() = runTest {
+        viewModel.uiState.test {
+            // When
+            viewModel.accept(GetPosts)
+            viewModel.accept(GetPosts)
+
+            // Then
+            assertThat(awaitItem().isLoading).isTrue()
+            assertThat(awaitItem().isLoading).isFalse()
+            coVerify(exactly = 1) {
+                useCase.execute(any())
+                savedStateHandle.get<Any>(POSTS)
+            }
+        }
+    }
+
+    @Test
+    fun `given posts available in handle when gets posts then does not query the api`() = runTest {
+        // Given
+        coEvery { savedStateHandle.get<Any>(any()) } returns listOf(model)
+
+        // When
+        viewModel.accept(GetPosts)
+
+        // Then
+        coVerify(inverse = true) { useCase.execute(any()) }
+    }
+
     private companion object {
         private const val ID = "id"
+        private const val POSTS = "posts"
     }
 }

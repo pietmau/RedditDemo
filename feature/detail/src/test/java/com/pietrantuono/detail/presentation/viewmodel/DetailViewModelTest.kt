@@ -1,6 +1,7 @@
 package com.pietrantuono.detail.presentation.viewmodel
 
 import androidx.lifecycle.SavedStateHandle
+import app.cash.turbine.TurbineTestContext
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.pietrantuono.common.model.reddit.Post
@@ -8,7 +9,9 @@ import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetai
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
 import com.pietrantuono.posts.GetPostDetailUseCase
 import com.pietrantuono.posts.GetPostDetailUseCase.Params
+import io.mockk.Called
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -27,7 +30,7 @@ class DetailViewModelTest {
         coEvery { map(post) } returns model
     }
     private val handle: SavedStateHandle = mockk(relaxed = true) {
-        coEvery { get<String>(ID) } returns null
+        coEvery { get<PostDetailUiModel>(POST) } returns null
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -51,27 +54,23 @@ class DetailViewModelTest {
             viewModel.accept(GetPostDetail(TEXT))
 
             // Then
-            val state = expectMostRecentItem()
-            assertThat(state.post).isEqualTo(model)
-            assertThat(state.error).isFalse()
-            assertThat(state.loading).isTrue()
+            assertModelIsEmitted()
+            coVerify { useCase.execute(eq(Params(TEXT))) }
         }
     }
 
     @Test
-    fun `given there is no saved state when starts then emits the post`() = runTest {
-        // Given
-        every { handle.get<String>(ID) } returns TEXT
-
-        // When
-        val viewModel = DetailViewModel(useCase, mapper, handle, testDispatcher, mockk())
-
-        // Then
+    fun `given there is saved state when gets posts then gets it from handle`() = runTest {
         viewModel.uiState.test {
-            val state = expectMostRecentItem()
-            assertThat(state.post).isEqualTo(model)
-            assertThat(state.error).isFalse()
-            assertThat(state.loading).isTrue()
+            // Given
+            every { handle.get<PostDetailUiModel>(POST) } returns model
+
+            // When
+            viewModel.accept(GetPostDetail(TEXT))
+
+            // Then
+            assertModelIsEmitted()
+            coVerify { useCase wasNot Called }
         }
     }
 
@@ -90,8 +89,15 @@ class DetailViewModelTest {
         }
     }
 
+    private fun TurbineTestContext<DetailUiState>.assertModelIsEmitted() {
+        val state = expectMostRecentItem()
+        assertThat(state.post).isEqualTo(model)
+        assertThat(state.error).isFalse()
+        assertThat(state.loading).isTrue()
+    }
+
     private companion object {
-        private const val ID = "id"
+        private const val POST = "post"
         private const val TEXT = "text"
     }
 }

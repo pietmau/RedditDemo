@@ -16,6 +16,12 @@ When a post is clicked, it opens a detail screen with the post's image and title
 
 **Pagination must be added!!!** And page size should be dynamic, based on screen size, network conditions, usage patterns, etc...
 
+I also would have been the right thing to do to **show ths saved results from the database while fetching new data** from the network.
+
+### Please note
+Most posts in the `pics` subreddit do not have a text.
+I selected this subreddit because it was my idea to run some TensorFlow models on the images (which I did not do, due to time constraints).
+
 ## How is it built?
 
 ### Architecture
@@ -24,16 +30,16 @@ Clean architecture + MVVM.
 ### Auth
 Reddit uses Oauth2 for authentication. This demo uses the `installed app` flow.
 
-It is implemented using interceptors (see `core/network` module).
+It is implemented using interceptors.
 
 ### Modularization
 - Modularization is based on features and layers.
 
 There are different approaches to modularization, such as organizing
 by feature or by layer (presentation, domain and data), or using a combination of these, or other methods.
-The choice of approach should be made based on the project's specific requirements.
+The choice of approach should be made based on the project's specifics.
 
-(This project is modularized more than it's necessary, for demonstration purposes).
+(This project is modularized more than necessary, for demonstration purposes).
 
 ### Libraries
 - Dependency injection:  ```Hilt```

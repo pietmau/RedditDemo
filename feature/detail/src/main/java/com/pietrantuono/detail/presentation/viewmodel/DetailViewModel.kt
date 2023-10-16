@@ -23,10 +23,6 @@ class DetailViewModel @Inject constructor(
 
     override val _uiState: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState())
 
-    init {
-        handle.get<String>(ID)?.let { getPostDetail(it) }
-    }
-
     override fun accept(uiEvent: DetailUiEvent) {
         when (uiEvent) {
             is GetPostDetail -> getPostDetail(uiEvent.id)
@@ -35,16 +31,18 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun getPostDetail(id: String) {
-        handle[ID] = id
+        if (latestState.post != null) return
         launch {
-            val post = detailUseCase.execute(Params(id))
-            post?.let {
-                updateState { copy(post = mapper.map(it)) }
-            }
+            getPost(id)?.let { updateState { copy(post = it) } }
         }
     }
 
+    private suspend fun getPost(id: String) =
+        handle[POST] ?: detailUseCase.execute(Params(id))
+            ?.let { mapper.map(it) }
+            .also { handle[POST] = it }
+
     private companion object {
-        private const val ID = "id"
+        private const val POST = "post"
     }
 }
