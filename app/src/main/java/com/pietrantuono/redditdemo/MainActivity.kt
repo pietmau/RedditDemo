@@ -12,7 +12,6 @@ import androidx.navigation.navArgument
 import coil.ImageLoader
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import com.google.android.gms.tflite.client.TfLiteInitializationOptions
 import com.pietrantuono.redditdemo.navigation.DETAIL
 import com.pietrantuono.redditdemo.navigation.ID
 import com.pietrantuono.redditdemo.navigation.POSTS
@@ -24,9 +23,8 @@ import com.pietrantuono.redditdemo.ui.theme.RedditDemoTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import org.tensorflow.lite.support.image.TensorImage
-import org.tensorflow.lite.task.gms.vision.TfLiteVision
-import org.tensorflow.lite.task.gms.vision.detector.Detection
-import org.tensorflow.lite.task.gms.vision.detector.ObjectDetector
+import org.tensorflow.lite.task.vision.detector.Detection
+import org.tensorflow.lite.task.vision.detector.ObjectDetector
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -56,17 +54,18 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        val options = TfLiteInitializationOptions.builder().setEnableGpuDelegateSupport(true).build()
-        TfLiteVision.initialize(this, options).addOnSuccessListener {
-            extracted()
-        }.addOnFailureListener {
-            TfLiteVision.initialize(this).addOnSuccessListener {
-                extracted()
-            }.addOnFailureListener {
-                Log.e("foo", "Failed to initialize the TFLite interpreter: ${it.message}")
-            }
-        }
-        val modelName = "mobilenetv1.tflite"
+//        val options = TfLiteInitializationOptions.builder().setEnableGpuDelegateSupport(true).build()
+//        TfLiteVision.initialize(this, options).addOnSuccessListener {
+//            extracted()
+//        }.addOnFailureListener {
+//            TfLiteVision.initialize(this).addOnSuccessListener {
+//                extracted()
+//            }.addOnFailureListener {
+//                Log.e("foo", "Failed to initialize the TFLite interpreter: ${it.message}")
+//            }
+//        }
+//        val modelName = "mobilenetv1.tflite"
+        extracted()
     }
 
     private fun extracted() {

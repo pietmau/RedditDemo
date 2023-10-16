@@ -72,11 +72,7 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.navigation.compose)
     implementation(libs.activity.ktx)
-    implementation("org.tensorflow:tensorflow-lite-task-vision-play-services:0.4.2")
     implementation("org.tensorflow:tensorflow-lite-task-vision:0.4.0")
-    // Import the G(PU delegate plugin Library for GPU inference
-    implementation("org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0")
-    implementation("org.tensorflow:tensorflow-lite-gpu:2.9.0")
     implementation(libs.coil)
 
 }
