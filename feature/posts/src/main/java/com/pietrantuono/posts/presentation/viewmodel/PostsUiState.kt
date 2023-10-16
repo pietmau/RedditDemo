@@ -2,7 +2,7 @@ package com.pietrantuono.posts.presentation.viewmodel
 
 import android.os.Parcelable
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 data class PostsUiState(
     val isLoading: Boolean = true,

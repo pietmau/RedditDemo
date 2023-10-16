@@ -47,7 +47,6 @@ class PostsScreenTest {
         }
 
         // Then
-        composeTestRule.onNodeWithContentDescription(LOADING).assertDoesNotExist()
         composeTestRule.onNodeWithText(TITLE).assertExists()
     }
 

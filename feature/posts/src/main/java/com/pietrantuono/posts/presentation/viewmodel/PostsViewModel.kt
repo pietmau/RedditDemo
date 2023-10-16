@@ -1,13 +1,13 @@
 package com.pietrantuono.posts.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.posts.GetPostsUseCase
 import com.pietrantuono.posts.GetPostsUseCase.Params
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.None
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination.PostDetails
-import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetPosts
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetInitialPosts
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetNewPosts
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.NavigationPerformed
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.OnPostClicked
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class PostsViewModel @Inject constructor(
     private val useCase: GetPostsUseCase,
     private val mapper: PostsUiStateMapper,
-    private val savedStateHandle: SavedStateHandle,
     coroutineContext: CoroutineContext,
     logger: Logger
 ) : RedditViewModel<PostsUiState, PostsUiEvent>(coroutineContext, logger) {
@@ -28,9 +27,10 @@ class PostsViewModel @Inject constructor(
 
     override fun accept(event: PostsUiEvent) {
         when (event) {
-            is GetPosts -> getInitialPosts()
+            is GetInitialPosts -> getInitialPosts()
             is OnPostClicked -> navigateToPost(event.postId)
             is NavigationPerformed -> navigationPerformed()
+            is GetNewPosts -> updatePosts { getPosts() }
         }
     }
 
@@ -44,10 +44,14 @@ class PostsViewModel @Inject constructor(
 
     private fun getInitialPosts() {
         if (latestState.posts.isNotEmpty()) return
+        updatePosts { getPosts() }
+    }
+
+    private fun updatePosts(source: suspend () -> List<PostUiModel>) {
         updateState { copy(isLoading = true) }
         launch(
             block = {
-                val posts = getPosts()
+                val posts = source()
                 updateState {
                     copy(
                         isLoading = false,
@@ -59,10 +63,7 @@ class PostsViewModel @Inject constructor(
         )
     }
 
-    private suspend fun getPosts() =
-        savedStateHandle[POSTS] ?: useCase.execute(Params())
-            .map { mapper.map(it) }
-            .also { posts -> savedStateHandle[POSTS] = posts }
+    private suspend fun getPosts() = useCase.execute(Params()).map { mapper.map(it) }
 
     private companion object {
         private const val POSTS = "posts"

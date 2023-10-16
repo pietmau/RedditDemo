@@ -63,6 +63,7 @@ dependencies {
     implementation(libs.ui.tooling.preview)
     implementation(libs.material3)
     implementation(libs.coil)
+    implementation(libs.material)
 
     // Tests.
     testImplementation(libs.junit)
