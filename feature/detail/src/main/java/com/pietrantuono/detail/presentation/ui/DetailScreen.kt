@@ -15,8 +15,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter.State.Error
 import coil.compose.AsyncImagePainter.State.Success
@@ -68,6 +70,11 @@ private fun PostDetail(
         verticalArrangement = spacedBy(dimensionResource(R.dimen.small_spacing)),
     ) {
         Text(
+            modifier = Modifier.align(End),
+            text = stringResource(id = R.string.author, post.author),
+            style = MaterialTheme.typography.titleLarge,
+        )
+        Text(
             text = post.title,
             style = MaterialTheme.typography.displayLarge,
         )
@@ -81,11 +88,6 @@ private fun PostDetail(
                     else -> Unit
                 }
             }
-        )
-        Text(
-            modifier = Modifier.align(Alignment.Start),
-            text = post.author,
-            style = MaterialTheme.typography.titleLarge,
         )
         Text(
             text = post.text,
