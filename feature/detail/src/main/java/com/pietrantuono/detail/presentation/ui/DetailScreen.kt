@@ -1,5 +1,6 @@
 package com.pietrantuono.detail.presentation.ui
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Arrangement.spacedBy
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,45 +11,62 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.End
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter.State.Error
+import coil.compose.AsyncImagePainter
 import coil.compose.AsyncImagePainter.State.Success
 import com.pietrantuono.common.EMPTY_STRING
 import com.pietrantuono.detail.R
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ErrorConsumed
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.OnError
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiState
+import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Error
 import com.pietrantuono.detail.presentation.viewmodel.PostDetailUiModel
 
+@SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable
 fun DetailScreen(
     postId: String = EMPTY_STRING,
     state: DetailUiState = DetailUiState(),
     events: (DetailUiEvent) -> Unit = {}
 ) {
-    Surface(
+    val snackbarHostState = remember { SnackbarHostState() }
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         modifier = Modifier.fillMaxSize(),
-        color = MaterialTheme.colorScheme.surfaceVariant
+        containerColor = MaterialTheme.colorScheme.surfaceVariant
     ) {
         if (state.loading) {
             Loading()
         }
-        PostDetail(state.post) {
-            events(ImageLoaded)
-        }
+        PostDetail(
+            post = state.post,
+            onImageLoaded = { events(ImageLoaded) },
+            onError = { message -> events(OnError(message)) }
+        )
     }
     LaunchedEffect(postId) {
         events(GetPostDetail(postId))
+    }
+    LaunchedEffect(state.error) {
+        if (state.error is Error) {
+            snackbarHostState.showSnackbar(state.error.message)
+            events(ErrorConsumed)
+        }
     }
 }
 
@@ -60,7 +78,8 @@ private fun PostDetail(
         EMPTY_STRING,
         EMPTY_STRING
     ),
-    onImageLoaded: () -> Unit = {}
+    onImageLoaded: () -> Unit = {},
+    onError: (String?) -> Unit = {}
 ) {
     post ?: return
     Column(
@@ -84,7 +103,8 @@ private fun PostDetail(
             contentDescription = post.title,
             onState = { state ->
                 when (state) {
-                    is Success, is Error -> onImageLoaded()
+                    is Success -> onImageLoaded()
+                    is AsyncImagePainter.State.Error -> onError(state.result.throwable.message)
                     else -> Unit
                 }
             }

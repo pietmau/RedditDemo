@@ -5,8 +5,12 @@ import app.cash.turbine.TurbineTestContext
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.pietrantuono.common.model.reddit.Post
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ErrorConsumed
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.OnError
+import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Error
+import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.None
 import com.pietrantuono.posts.GetPostDetailUseCase
 import com.pietrantuono.posts.GetPostDetailUseCase.Params
 import io.mockk.Called
@@ -26,24 +30,36 @@ class DetailViewModelTest {
         coEvery { execute(eq(Params(TEXT))) } returns post
     }
     private val model: PostDetailUiModel = mockk()
-    private val mapper: DetailMapper = mockk {
+    private val detailMapper: DetailMapper = mockk {
         coEvery { map(post) } returns model
     }
     private val handle: SavedStateHandle = mockk(relaxed = true) {
         coEvery { get<PostDetailUiModel>(POST) } returns null
     }
+    private val errorMapper: ErrorMapper = mockk(relaxed = true) {
+        every { map(TEXT) } returns TEXT
+    }
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val testDispatcher: TestDispatcher = UnconfinedTestDispatcher()
-    private val viewModel = DetailViewModel(useCase, mapper, handle, testDispatcher, mockk())
+
+    private
+    val viewModel = DetailViewModel(
+        useCase,
+        detailMapper,
+        errorMapper,
+        handle,
+        testDispatcher,
+        mockk()
+    )
 
     @Test
     fun `when starts then is loading`() = runTest {
         viewModel.uiState.test {
             val state = awaitItem()
-            assertThat(state.error).isFalse()
             assertThat(state.post).isNull()
             assertThat(state.loading).isTrue()
+            assertThat(state.error).isEqualTo(None)
         }
     }
 
@@ -84,16 +100,46 @@ class DetailViewModelTest {
             // Then
             val state = expectMostRecentItem()
             assertThat(state.post).isEqualTo(model)
-            assertThat(state.error).isFalse()
             assertThat(state.loading).isFalse()
+        }
+    }
+
+    @Test
+    fun `when error is received then sets it on the ui`() = runTest {
+        viewModel.uiState.test {
+            // When
+            viewModel.accept(GetPostDetail(TEXT))
+            viewModel.accept(OnError(TEXT))
+
+            // Then
+            val state = expectMostRecentItem()
+            assertThat(state.post).isEqualTo(model)
+            assertThat(state.loading).isFalse()
+            assertThat(state.error).isEqualTo(Error(TEXT))
+        }
+    }
+
+    @Test
+    fun `when error is consumed then is removed from the ui`() = runTest {
+        viewModel.uiState.test {
+            // When
+            viewModel.accept(GetPostDetail(TEXT))
+            viewModel.accept(OnError(TEXT))
+            viewModel.accept(ErrorConsumed)
+
+            // Then
+            val state = expectMostRecentItem()
+            assertThat(state.post).isEqualTo(model)
+            assertThat(state.loading).isFalse()
+            assertThat(state.error).isEqualTo(None)
         }
     }
 
     private fun TurbineTestContext<DetailUiState>.assertModelIsEmitted() {
         val state = expectMostRecentItem()
         assertThat(state.post).isEqualTo(model)
-        assertThat(state.error).isFalse()
         assertThat(state.loading).isTrue()
+        assertThat(state.error).isEqualTo(None)
     }
 
     private companion object {
