@@ -1,14 +1,13 @@
 package com.pietrantuono.detail.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ErrorConsumed
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.OnError
+import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Consumed
 import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Error
-import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.None
 import com.pietrantuono.posts.GetPostDetailUseCase
 import com.pietrantuono.posts.GetPostDetailUseCase.Params
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,8 +20,7 @@ class DetailViewModel @Inject constructor(
     private val detailUseCase: GetPostDetailUseCase,
     private val detailMapper: DetailMapper,
     private val errorMapper: ErrorMapper,
-    handle: SavedStateHandle,
-    private val screenState: DetailScreenState = DetailScreenState(handle),
+    private val screenState: DetailScreenState,
     coroutineContext: CoroutineContext,
     logger: Logger
 ) : RedditViewModel<DetailUiState, DetailUiEvent>(coroutineContext, logger) {
@@ -39,31 +37,34 @@ class DetailViewModel @Inject constructor(
     }
 
     private fun onErrorConsumed() {
-        updateState { copy(error = None) }
-        screenState.errorConsumed = true
+        updateState { copy(error = Consumed) }
     }
 
     private fun getPostDetail(id: String) {
         if (latestState.post != null) return
-        screenState.errorConsumed = false
         launch {
             getPost(id)?.let { updateState { copy(post = it) } }
         }
     }
 
     private suspend fun getPost(id: String) =
-        screenState.post ?: detailUseCase.execute(Params(id))
+        screenState.redditPost ?: detailUseCase.execute(Params(id))
             ?.let { detailMapper.map(it) }
-            .also { screenState.post = it }
+            .also { screenState.redditPost = it }
 
     private fun onError(uiEvent: OnError) {
-        updateState { copy(loading = false) }
-        if (screenState.errorConsumed) return
         updateState {
             copy(
-                error = Error(errorMapper.map(uiEvent.message)),
+                error = error(uiEvent),
                 loading = false
             )
         }
     }
+
+    private fun error(onError: OnError) =
+        if (latestState.error == Consumed) {
+            Consumed
+        } else {
+            Error(errorMapper.map(onError.message))
+        }
 }
