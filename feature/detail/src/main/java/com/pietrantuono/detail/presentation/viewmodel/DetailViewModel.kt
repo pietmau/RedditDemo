@@ -5,6 +5,7 @@ import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.Error
 import com.pietrantuono.posts.GetPostDetailUseCase
 import com.pietrantuono.posts.GetPostDetailUseCase.Params
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val detailUseCase: GetPostDetailUseCase,
-    private val mapper: DetailMapper,
+    private val detailMapper: DetailMapper,
     private val handle: SavedStateHandle,
     coroutineContext: CoroutineContext,
     logger: Logger
@@ -27,6 +28,7 @@ class DetailViewModel @Inject constructor(
         when (uiEvent) {
             is GetPostDetail -> getPostDetail(uiEvent.id)
             is ImageLoaded -> updateState { copy(loading = false) }
+            is Error -> TODO()
         }
     }
 
@@ -39,7 +41,7 @@ class DetailViewModel @Inject constructor(
 
     private suspend fun getPost(id: String) =
         handle[POST] ?: detailUseCase.execute(Params(id))
-            ?.let { mapper.map(it) }
+            ?.let { detailMapper.map(it) }
             .also { handle[POST] = it }
 
     private companion object {

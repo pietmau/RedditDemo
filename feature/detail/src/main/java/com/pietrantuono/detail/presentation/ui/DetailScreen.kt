@@ -43,9 +43,15 @@ fun DetailScreen(
         if (state.loading) {
             Loading()
         }
-        PostDetail(state.post) {
-            events(ImageLoaded)
-        }
+        PostDetail(
+            post = state.post,
+            onImageLoaded = {
+                events(ImageLoaded)
+            },
+            onError = { error ->
+                events(DetailUiEvent.Error(error))
+            }
+        )
     }
     LaunchedEffect(postId) {
         events(GetPostDetail(postId))
@@ -60,7 +66,8 @@ private fun PostDetail(
         EMPTY_STRING,
         EMPTY_STRING
     ),
-    onImageLoaded: () -> Unit = {}
+    onImageLoaded: () -> Unit = {},
+    onError: (String?) -> Unit = {}
 ) {
     post ?: return
     Column(
@@ -84,7 +91,8 @@ private fun PostDetail(
             contentDescription = post.title,
             onState = { state ->
                 when (state) {
-                    is Success, is Error -> onImageLoaded()
+                    is Success -> onImageLoaded()
+                    is Error -> onError(state.result.throwable.message)
                     else -> Unit
                 }
             }
