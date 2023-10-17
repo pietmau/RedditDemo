@@ -28,7 +28,7 @@ It also would have been the right thing to do to **show ths saved results from t
 Clean architecture + MVVM.
 
 ### Auth
-Reddit uses Oauth2 for authentication. This demo uses the `installed app` flow.
+Reddit uses Oauth2 for authentication. This demo uses the `installed app` flow, retrieving a new token when needed.
 
 It is implemented using interceptors.
 

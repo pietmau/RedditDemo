@@ -14,6 +14,9 @@ sealed class ErrorUiModel {
     object None : ErrorUiModel()
 
     data class Error(val message: String) : ErrorUiModel()
+
+    object Consumed : ErrorUiModel()
+
 }
 
 @Parcelize

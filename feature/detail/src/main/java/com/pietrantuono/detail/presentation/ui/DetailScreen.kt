@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import coil.compose.AsyncImage
-import coil.compose.AsyncImagePainter.State.Error as AsyncImageError
 import coil.compose.AsyncImagePainter.State.Success
 import com.pietrantuono.common.EMPTY_STRING
 import com.pietrantuono.detail.R
@@ -36,6 +35,7 @@ import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.OnError
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiState
 import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Error
 import com.pietrantuono.detail.presentation.viewmodel.PostDetailUiModel
+import coil.compose.AsyncImagePainter.State.Error as AsyncImageError
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Composable

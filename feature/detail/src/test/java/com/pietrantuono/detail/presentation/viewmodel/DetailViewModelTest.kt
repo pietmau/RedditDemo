@@ -8,6 +8,7 @@ import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ErrorConsume
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.OnError
+import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Consumed
 import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Error
 import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.None
 import com.pietrantuono.posts.GetPostDetailUseCase
@@ -33,7 +34,7 @@ class DetailViewModelTest {
         coEvery { map(post) } returns model
     }
     private val detailScreenState: DetailScreenState = mockk(relaxed = true) {
-        coEvery { post } returns null
+        coEvery { redditPost } returns null
     }
     private val errorMapper: ErrorMapper = mockk(relaxed = true) {
         every { map(TEXT) } returns TEXT
@@ -47,7 +48,6 @@ class DetailViewModelTest {
         useCase,
         detailMapper,
         errorMapper,
-        mockk(),
         detailScreenState,
         testDispatcher,
         mockk()
@@ -79,7 +79,7 @@ class DetailViewModelTest {
     fun `given there is saved state when gets posts then gets it from handle`() = runTest {
         viewModel.uiState.test {
             // Given
-            every { detailScreenState.post } returns model
+            every { detailScreenState.redditPost } returns model
 
             // When
             viewModel.accept(GetPostDetail(TEXT))
@@ -131,7 +131,7 @@ class DetailViewModelTest {
             val state = expectMostRecentItem()
             assertThat(state.post).isEqualTo(model)
             assertThat(state.loading).isFalse()
-            assertThat(state.error).isEqualTo(None)
+            assertThat(state.error).isEqualTo(Consumed)
         }
     }
 

@@ -72,7 +72,11 @@ fun RedditCard(
 
 @Composable
 private fun ThumbNailImage(
-    post: PostUiModel = PostUiModel(title = TITLE, id = EMPTY_STRING, author = EMPTY_STRING)
+    post: PostUiModel = PostUiModel(
+        title = TITLE,
+        id = EMPTY_STRING,
+        author = EMPTY_STRING
+    )
 ) {
     var hideImage by rememberSaveable { mutableStateOf(false) }
     if (!hideImage) {
