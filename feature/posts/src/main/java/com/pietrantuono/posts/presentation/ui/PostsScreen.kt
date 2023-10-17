@@ -12,7 +12,7 @@ import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
+import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
@@ -24,7 +24,7 @@ import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetInitialPost
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetNewPosts
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.OnPostClicked
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiState
-import androidx.compose.ui.Alignment.Companion.TopCenter
+
 @Composable
 fun PostsScreen(
     postsUiState: PostsUiState = PostsUiState(),

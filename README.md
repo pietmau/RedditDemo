@@ -19,10 +19,8 @@ When a post is clicked, it opens a detail screen with the post's image and title
 I also would have been the right thing to do to **show ths saved results from the database while fetching new data** from the network.
 
 ### Please note
-- Most posts in the `pics` subreddit do not have a text.
-I selected this subreddit because it was my idea to run some TensorFlow models on the images (which I did not do, due to time constraints).
-
-- Some images do not load. I did not investigate this.
+- Many posts do not have text.
+- Some images do not load (I did not investigate this, because of time constraints).
 
 ## How is it built?
 
