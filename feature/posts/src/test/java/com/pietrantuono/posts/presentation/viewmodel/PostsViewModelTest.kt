@@ -1,5 +1,6 @@
 package com.pietrantuono.posts.presentation.viewmodel
 
+import androidx.lifecycle.SavedStateHandle
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.pietrantuono.posts.GetPostsUseCase
@@ -9,6 +10,7 @@ import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetInitialPost
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetNewPosts
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.NavigationPerformed
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.OnPostClicked
+import io.mockk.Called
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -28,11 +30,15 @@ class PostsViewModelTest {
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val coroutineContext = UnconfinedTestDispatcher()
+    private val savedStateHandle: SavedStateHandle = mockk(relaxed = true) {
+        coEvery { get<PostUiModel>(POSTS) } returns null
+    }
     private val viewModel = PostsViewModel(
         useCase = useCase,
         mapper = mapper,
         coroutineContext = coroutineContext,
-        logger = mockk(relaxed = true)
+        logger = mockk(relaxed = true),
+        handle = savedStateHandle,
     )
 
     @Test
@@ -143,7 +149,25 @@ class PostsViewModelTest {
         }
     }
 
+    @Test
+    fun `given posts are saved when gets posts then does not execute usecase`() = runTest {
+        viewModel.uiState.test {
+            // Given
+            coEvery { savedStateHandle.get<Any>(POSTS) } returns listOf(model)
+
+            // When
+            viewModel.accept(GetInitialPosts)
+
+            // Then
+            val state = expectMostRecentItem()
+            assertThat(state.isLoading).isFalse()
+            assertThat(state.posts).containsExactly(model)
+            coVerify { useCase wasNot Called }
+        }
+    }
+
     private companion object {
         private const val ID = "id"
+        private const val POSTS = "posts"
     }
 }

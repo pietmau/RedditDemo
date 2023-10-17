@@ -2,7 +2,6 @@ package com.pietrantuono.posts
 
 import com.pietrantuono.common.Mapper
 import com.pietrantuono.common.model.reddit.Post
-import com.pietrantuono.network.entity.reddit.NetworkDataEntity
 import com.pietrantuono.network.entity.reddit.NetworkRedditResponseEntity
 import javax.inject.Inject
 
@@ -33,6 +32,6 @@ class NetworkDataEntityMapper @Inject constructor() :
         }
     }
 
-    private fun filterNullPosts(input: NetworkRedditResponseEntity): List<Pair<String?, NetworkDataEntity>> =
+    private fun filterNullPosts(input: NetworkRedditResponseEntity) =
         input.data.posts.mapNotNull { post -> post.data?.let { data -> post.kind to data } }
 }
