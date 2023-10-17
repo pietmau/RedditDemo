@@ -3,8 +3,12 @@ package com.pietrantuono.detail.presentation.viewmodel
 import androidx.lifecycle.SavedStateHandle
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ErrorConsumed
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.GetPostDetail
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ImageLoaded
+import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.OnError
+import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.Error
+import com.pietrantuono.detail.presentation.viewmodel.ErrorUiModel.None
 import com.pietrantuono.posts.GetPostDetailUseCase
 import com.pietrantuono.posts.GetPostDetailUseCase.Params
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,8 +19,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 @HiltViewModel
 class DetailViewModel @Inject constructor(
     private val detailUseCase: GetPostDetailUseCase,
-    private val mapper: DetailMapper,
-    private val handle: SavedStateHandle,
+    private val detailMapper: DetailMapper,
+    private val errorMapper: ErrorMapper,
+    handle: SavedStateHandle,
+    private val screenState: DetailScreenState = DetailScreenState(handle),
     coroutineContext: CoroutineContext,
     logger: Logger
 ) : RedditViewModel<DetailUiState, DetailUiEvent>(coroutineContext, logger) {
@@ -27,22 +33,37 @@ class DetailViewModel @Inject constructor(
         when (uiEvent) {
             is GetPostDetail -> getPostDetail(uiEvent.id)
             is ImageLoaded -> updateState { copy(loading = false) }
+            is OnError -> onError(uiEvent)
+            is ErrorConsumed -> onErrorConsumed()
         }
+    }
+
+    private fun onErrorConsumed() {
+        updateState { copy(error = None) }
+        screenState.errorConsumed = true
     }
 
     private fun getPostDetail(id: String) {
         if (latestState.post != null) return
+        screenState.errorConsumed = false
         launch {
             getPost(id)?.let { updateState { copy(post = it) } }
         }
     }
 
     private suspend fun getPost(id: String) =
-        handle[POST] ?: detailUseCase.execute(Params(id))
-            ?.let { mapper.map(it) }
-            .also { handle[POST] = it }
+        screenState.post ?: detailUseCase.execute(Params(id))
+            ?.let { detailMapper.map(it) }
+            .also { screenState.post = it }
 
-    private companion object {
-        private const val POST = "post"
+    private fun onError(uiEvent: OnError) {
+        updateState { copy(loading = false) }
+        if (screenState.errorConsumed) return
+        updateState {
+            copy(
+                error = Error(errorMapper.map(uiEvent.message)),
+                loading = false
+            )
+        }
     }
 }
