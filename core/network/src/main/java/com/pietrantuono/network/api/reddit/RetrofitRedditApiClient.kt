@@ -3,7 +3,6 @@ package com.pietrantuono.network.api.reddit
 import com.pietrantuono.network.interceptor.BearerTokenAuthInterceptor
 import javax.inject.Inject
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -12,14 +11,9 @@ class RetrofitRedditApiClient @Inject constructor(
 ) : RedditApiClient {
 
     private val redditApi by lazy {
-        val client =
-            OkHttpClient.Builder()
-                .addInterceptor(
-                    HttpLoggingInterceptor()
-                        .apply { level = HttpLoggingInterceptor.Level.BODY }
-                )
-                .addInterceptor(bearerTokenAuthInterceptor)
-                .build()
+        val client = OkHttpClient.Builder()
+            .addInterceptor(bearerTokenAuthInterceptor)
+            .build()
         Retrofit.Builder()
             .baseUrl(BASEURL)
             .client(client)
@@ -32,7 +26,7 @@ class RetrofitRedditApiClient @Inject constructor(
         limit: Int
     ) = redditApi.getNewPosts(subReddit, mapOf(LIMIT to limit.toString()))
 
-    private companion object { // TODO move to config.
+    private companion object {
         private const val BASEURL: String = "https://oauth.reddit.com"
         private const val LIMIT = "limit"
     }
