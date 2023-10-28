@@ -7,7 +7,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.pietrantuono.posts.presentation.ui.PostsScreen
 import com.pietrantuono.posts.presentation.viewmodel.NavigationDestination
-import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent
+import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.NavigationPerformed
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiState
 import com.pietrantuono.posts.presentation.viewmodel.PostsViewModel
 
@@ -20,6 +20,6 @@ internal fun AllPosts(navigation: (NavigationDestination) -> Unit = {}) {
     }
     LaunchedEffect(postsUiState.navDestination) {
         navigation(postsUiState.navDestination)
-        viewModel.accept(PostsUiEvent.NavigationPerformed)
+        viewModel.accept(NavigationPerformed)
     }
 }
