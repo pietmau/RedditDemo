@@ -1,5 +1,6 @@
 package com.pietrantuono.detail.presentation.viewmodel
 
+import android.util.Log
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.detail.presentation.viewmodel.DetailUiEvent.ErrorConsumed
@@ -24,6 +25,10 @@ class DetailViewModel @Inject constructor(
     coroutineContext: CoroutineContext,
     logger: Logger
 ) : RedditViewModel<DetailUiState, DetailUiEvent>(coroutineContext, logger) {
+
+    init {
+        Log.e("foo", toString())
+    }
 
     override val _uiState: MutableStateFlow<DetailUiState> = MutableStateFlow(DetailUiState())
 

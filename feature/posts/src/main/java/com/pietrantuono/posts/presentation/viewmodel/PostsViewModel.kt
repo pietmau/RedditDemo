@@ -46,7 +46,12 @@ class PostsViewModel @Inject constructor(
 
     private fun getInitialPosts() {
         if (latestState.posts.isNotEmpty()) return
-        updatePosts { handle[POSTS] ?: getNewPosts() }
+        val posts: List<PostUiModel>? = handle[POSTS]
+        if (posts.isNullOrEmpty()) {
+            updatePosts { getNewPosts() }
+        } else {
+            updateState { copy(posts = posts) }
+        }
     }
 
     private fun updatePosts(source: suspend () -> List<PostUiModel>) {

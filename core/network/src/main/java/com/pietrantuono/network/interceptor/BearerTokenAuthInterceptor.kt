@@ -20,9 +20,7 @@ class BearerTokenAuthInterceptor(
         val response = makeNewRequest(request, token, chain)
         return response.takeIf {
             response.code != UNAUTHORIZED
-        } ?: response.close().run {
-            getNewTokenAndDoRequest(request, chain)
-        }
+        } ?: response.close().run { getNewTokenAndDoRequest(request, chain) }
     }
 
     private fun getNewTokenAndDoRequest(
