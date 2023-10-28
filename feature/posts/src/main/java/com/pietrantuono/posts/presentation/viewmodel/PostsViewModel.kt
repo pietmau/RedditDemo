@@ -1,6 +1,6 @@
 package com.pietrantuono.posts.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
+import android.util.Log
 import com.pietrantuono.common.Logger
 import com.pietrantuono.common.RedditViewModel
 import com.pietrantuono.posts.GetPostsUseCase
@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 class PostsViewModel @Inject constructor(
     private val useCase: GetPostsUseCase,
     private val mapper: PostsUiStateMapper,
-    private val handle: SavedStateHandle,
     coroutineContext: CoroutineContext,
     logger: Logger
 ) : RedditViewModel<PostsUiState, PostsUiEvent>(coroutineContext, logger) {
@@ -45,13 +44,9 @@ class PostsViewModel @Inject constructor(
     }
 
     private fun getInitialPosts() {
+        Log.e("foo", "getInitialPosts")
         if (latestState.posts.isNotEmpty()) return
-        val posts: List<PostUiModel>? = handle[POSTS]
-        if (posts.isNullOrEmpty()) {
-            updatePosts { getNewPosts() }
-        } else {
-            updateState { copy(posts = posts) }
-        }
+        updatePosts { getNewPosts() }
     }
 
     private fun updatePosts(source: suspend () -> List<PostUiModel>) {
@@ -73,7 +68,6 @@ class PostsViewModel @Inject constructor(
     private suspend fun getNewPosts() =
         useCase.execute(Params())
             .map { mapper.map(it) }
-            .also { handle[POSTS] = it }
 
     private companion object {
         private const val POSTS = "posts"

@@ -11,13 +11,16 @@ import androidx.compose.material.pullrefresh.PullRefreshIndicator
 import androidx.compose.material.pullrefresh.pullRefresh
 import androidx.compose.material.pullrefresh.rememberPullRefreshState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Alignment.Companion.TopCenter
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
+import androidx.lifecycle.Lifecycle.Event.ON_RESUME
+import androidx.lifecycle.LifecycleEventObserver
 import com.pietrantuono.home.R
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent
 import com.pietrantuono.posts.presentation.viewmodel.PostsUiEvent.GetInitialPosts
@@ -31,8 +34,23 @@ fun PostsScreen(
     events: (PostsUiEvent) -> Unit = {}
 ) {
     Content(postsUiState, events)
-    LaunchedEffect(true) {
-        events(GetInitialPosts)
+    ObserveLifecycle(events)
+}
+
+@Composable
+private fun ObserveLifecycle(events: (PostsUiEvent) -> Unit) {
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    DisposableEffect(lifecycle) {
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                ON_RESUME -> events(GetInitialPosts)
+                else -> Unit
+            }
+        }
+        lifecycle.addObserver(observer)
+        onDispose {
+            lifecycle.removeObserver(observer)
+        }
     }
 }
 
@@ -46,7 +64,11 @@ private fun Content(
         refreshing = state.isLoading,
         onRefresh = { events(GetNewPosts) }
     )
-    Box(Modifier.pullRefresh(pullRefreshState).fillMaxSize()) {
+    Box(
+        Modifier
+            .pullRefresh(pullRefreshState)
+            .fillMaxSize()
+    ) {
         LazyColumn(Modifier.padding(dimensionResource(R.dimen.small_padding))) {
             items(items = state.posts) {
                 RedditCard(
@@ -59,9 +81,11 @@ private fun Content(
         PullRefreshIndicator(
             refreshing = state.isLoading,
             state = pullRefreshState,
-            modifier = Modifier.align(TopCenter).semantics {
-                contentDescription = stringResource
-            }
+            modifier = Modifier
+                .align(TopCenter)
+                .semantics {
+                    contentDescription = stringResource
+                }
         )
     }
 }
