@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.detekt) apply false
     alias(libs.plugins.kotlinMultiplatform).apply(false)
-
+    id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
 }
 
 true // Needed to make the Suppress annotation work for the plugins block

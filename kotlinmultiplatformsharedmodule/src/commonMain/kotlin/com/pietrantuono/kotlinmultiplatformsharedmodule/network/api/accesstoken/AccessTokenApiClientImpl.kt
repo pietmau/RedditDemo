@@ -28,7 +28,7 @@ class AccessTokenApiClientImpl : AccessTokenApiClient {
         ) {
             url {
                 protocol = URLProtocol.HTTPS
-                host = "https://www.reddit.com"
+                host = "www.reddit.com/"
                 path("api/v1/access_token")
             }
         }.body()
