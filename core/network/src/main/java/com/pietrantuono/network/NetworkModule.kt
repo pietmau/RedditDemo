@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
-import com.pietrantuono.kotlinmultiplatformsharedmodule.network.api.accesstoken.AccessTokenApiClientImpl
+import com.pietrantuono.network.api.accesstoken.AccessTokenApiClientImpl
 import com.pietrantuono.network.api.accesstoken.AccessTokenApiClient
 import com.pietrantuono.network.interceptor.BearerTokenAuthInterceptor
 import com.pietrantuono.network.networkchecker.NetworkChecker

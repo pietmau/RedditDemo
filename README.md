@@ -1,5 +1,8 @@
 # Reddit Demo
 
+## KMM
+Added KMM!
+
 ## How to run
 This project should build and run as it is (developed using Android Studio Android Studio Giraffe | 2022.3.1 Patch 1).
 

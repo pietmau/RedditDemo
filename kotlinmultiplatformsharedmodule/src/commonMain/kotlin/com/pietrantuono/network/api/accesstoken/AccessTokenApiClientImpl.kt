@@ -1,6 +1,5 @@
-package com.pietrantuono.kotlinmultiplatformsharedmodule.network.api.accesstoken
+package com.pietrantuono.network.api.accesstoken
 
-import com.pietrantuono.network.api.accesstoken.AccessTokenApiClient
 import com.pietrantuono.network.entity.accesstoken.AccessToken
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
