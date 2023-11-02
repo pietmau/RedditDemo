@@ -4,17 +4,28 @@ import com.pietrantuono.network.api.accesstoken.AccessTokenApiClient
 import com.pietrantuono.network.entity.accesstoken.AccessToken
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BasicAuthCredentials
+import io.ktor.client.plugins.auth.providers.basic
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.request.forms.submitForm
 import io.ktor.http.URLProtocol
 import io.ktor.http.parameters
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
+import kotlin.io.encoding.Base64
 
 class AccessTokenApiClientImpl : AccessTokenApiClient {
     private val client = HttpClient {
         install(ContentNegotiation) {
             json()
+        }
+        install(Auth) {
+            basic {
+                credentials {
+                    BasicAuthCredentials(username = "KYewjf56pgiKLzVihGALlg", password = "")
+                }
+            }
         }
     }
 
@@ -23,7 +34,7 @@ class AccessTokenApiClientImpl : AccessTokenApiClient {
             formParameters = parameters {
                 append("grant_type", GRANT_TYPE)
                 append("redirect_uri", REDIRECT_URI)
-                append("device_id", "cxcaczcxz") // TODO
+                append("device_id", "adefgtdgbtdfgyhescftg") // TODO
             }
         ) {
             url {
