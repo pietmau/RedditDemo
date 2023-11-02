@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.com.android.library)
+    id("kotlinx-serialization")
 }
 
 //@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
