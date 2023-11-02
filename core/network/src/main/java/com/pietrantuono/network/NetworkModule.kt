@@ -4,7 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
-import com.pietrantuono.network.interceptor.BasicAuthInterceptor
+import com.pietrantuono.network.api.accesstoken.AccessTokenApiClientImpl
+import com.pietrantuono.network.api.accesstoken.AccessTokenApiClient
 import com.pietrantuono.network.interceptor.BearerTokenAuthInterceptor
 import com.pietrantuono.network.networkchecker.NetworkChecker
 import com.pietrantuono.network.networkchecker.NetworkCheckerImpl
@@ -30,6 +31,11 @@ interface NetworkModule {
     companion object {
 
         @Provides
+        fun bindAccessTokenApiClient(): AccessTokenApiClient = AccessTokenApiClientImpl(
+            clientId = BuildConfig.CLIENT_ID
+        )
+
+        @Provides
         fun provideConnectivityManager(@ApplicationContext context: Context) =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -39,13 +45,9 @@ interface NetworkModule {
         )
 
         @Provides
-        fun provideBasicAuthInterceptor() = BasicAuthInterceptor()
-
-        @Provides
-        fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences =
-            context.getSharedPreferences(
-                context.getString(R.string.token_store),
-                Activity.MODE_PRIVATE
-            )
+        fun provideSharedPreferences(@ApplicationContext context: Context): SharedPreferences = context.getSharedPreferences(
+            context.getString(R.string.token_store),
+            Activity.MODE_PRIVATE
+        )
     }
 }

@@ -1,6 +1,7 @@
 package com.pietrantuono.network.interceptor
 
 import com.pietrantuono.network.tokenmanager.TokenManager
+import kotlinx.coroutines.runBlocking
 import okhttp3.Interceptor
 import okhttp3.Interceptor.Chain
 import okhttp3.Request
@@ -16,14 +17,19 @@ class BearerTokenAuthInterceptor(
         if (request.url.host != host) {
             return chain.proceed(request)
         }
-        val token = tokenManager.getStoredToken() ?: return getNewTokenAndDoRequest(request, chain)
-        val response = makeNewRequest(request, token, chain)
-        return response.takeIf {
-            response.code != UNAUTHORIZED
-        } ?: response.close().run { getNewTokenAndDoRequest(request, chain) }
+        return runBlocking {
+            val token = tokenManager.getStoredToken() ?: return@runBlocking getNewTokenAndDoRequest(
+                request,
+                chain
+            )
+            val response = makeNewRequest(request, token, chain)
+            response.takeIf {
+                response.code != UNAUTHORIZED
+            } ?: response.close().run { getNewTokenAndDoRequest(request, chain) }
+        }
     }
 
-    private fun getNewTokenAndDoRequest(
+    private suspend fun getNewTokenAndDoRequest(
         request: Request,
         chain: Chain
     ): Response {

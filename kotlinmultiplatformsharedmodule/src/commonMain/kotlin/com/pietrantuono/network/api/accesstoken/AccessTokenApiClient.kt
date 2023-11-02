@@ -4,5 +4,5 @@ import com.pietrantuono.network.entity.accesstoken.AccessToken
 
 interface AccessTokenApiClient {
 
-    fun getAccessToken(deviceId: String): AccessToken?
+    suspend fun getAccessToken(deviceId: String): AccessToken?
 }

@@ -11,7 +11,7 @@ appcompat = "1.6.1"
 
 hilt-android = "2.48"
 hilt-navigation-compose = "1.1.0-beta01"
-hilt-version = "2.44"
+hilt-version = "2.48"
 
 org-jetbrains-kotlin-jvm = "1.8.10"
 retrofit = "2.9.0"
@@ -31,6 +31,9 @@ room = "2.5.2"
 detekt = "1.23.1"
 ui-test-junit4 = "1.5.0"
 ui-test-manifest = "1.5.0"
+
+kotlin_ggg = "1.9.10"
+
 
 ##########################################################################################
 ##########################################################################################
@@ -80,6 +83,7 @@ mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines_version" }
 truth = { group = "com.google.truth", name = "truth", version.ref = "truth" }
 
+
 ##########################################################################################
 ##########################################################################################
 [plugins]
@@ -89,6 +93,8 @@ com-android-library = { id = "com.android.library", version.ref = "agp" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt-version" }
 org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin_ggg" }
+
 
 [bundles]
 
