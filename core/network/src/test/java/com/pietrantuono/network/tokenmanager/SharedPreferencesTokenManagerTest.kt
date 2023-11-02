@@ -21,7 +21,7 @@ class SharedPreferencesTokenManagerTest {
         every { edit() } returns editor
     }
     private val accessToken = mockk<AccessToken>(relaxed = true) {
-        every { accessToken } returns SOME_TOKEN
+        every { access_token } returns SOME_TOKEN
     }
     private val accessTokenApiClient: RetrofitAccessTokenApiClient = mockk(relaxed = true) {
         every { getAccessToken(SOME_ID) } returns accessToken

@@ -13,9 +13,8 @@ import io.ktor.http.URLProtocol
 import io.ktor.http.parameters
 import io.ktor.http.path
 import io.ktor.serialization.kotlinx.json.json
-import kotlin.io.encoding.Base64
 
-class AccessTokenApiClientImpl : AccessTokenApiClient {
+class AccessTokenApiClientImpl(private val clientId: String = EMPTY_STRING) : AccessTokenApiClient {
     private val client = HttpClient {
         install(ContentNegotiation) {
             json()
@@ -23,32 +22,34 @@ class AccessTokenApiClientImpl : AccessTokenApiClient {
         install(Auth) {
             basic {
                 credentials {
-                    BasicAuthCredentials(username = "KYewjf56pgiKLzVihGALlg", password = "")
+                    BasicAuthCredentials(username = clientId, password = EMPTY_STRING)
                 }
             }
         }
     }
 
-    override suspend fun getAccessToken(deviceId: String): AccessToken? {
-        val response: AccessToken? = client.submitForm(
-            formParameters = parameters {
-                append("grant_type", GRANT_TYPE)
-                append("redirect_uri", REDIRECT_URI)
-                append("device_id", "adefgtdgbtdfgyhescftg") // TODO
-            }
-        ) {
-            url {
-                protocol = URLProtocol.HTTPS
-                host = "www.reddit.com/"
-                path("api/v1/access_token")
-            }
-        }.body()
-        return response
-    }
+    override suspend fun getAccessToken(deviceId: String): AccessToken? = client.submitForm(
+        formParameters = parameters {
+            append(GRANT_TYPE, GRANT_TYPE_TYPE)
+            append(REDIRECT_URI, REDIRECT_URI_URI)
+            append(DEVICE_ID, deviceId)
+        }
+    ) {
+        url {
+            host = HOST
+            protocol = URLProtocol.HTTPS
+            path(PATH)
+        }
+    }.body()
 
     private companion object {
-        private const val URL = "https://www.reddit.com/api/v1/access_token"
-        private const val GRANT_TYPE = "https://oauth.reddit.com/grants/installed_client"
-        private const val REDIRECT_URI = "https://www.reddit.com"
+        private const val HOST = "www.reddit.com/"
+        private const val PATH = "api/v1/access_token"
+        private const val GRANT_TYPE_TYPE = "https://oauth.reddit.com/grants/installed_client"
+        private const val REDIRECT_URI_URI = "https://www.reddit.com"
+        private const val DEVICE_ID = "device_id"
+        private const val GRANT_TYPE = "grant_type"
+        private const val REDIRECT_URI = "redirect_uri"
+        private const val EMPTY_STRING = ""
     }
 }

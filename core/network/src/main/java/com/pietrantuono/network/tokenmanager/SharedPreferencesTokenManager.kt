@@ -2,7 +2,6 @@ package com.pietrantuono.network.tokenmanager
 
 import android.content.SharedPreferences
 import com.pietrantuono.common.Logger
-import com.pietrantuono.kotlinmultiplatformsharedmodule.network.api.accesstoken.AccessTokenApiClientImpl
 import com.pietrantuono.network.api.accesstoken.AccessTokenApiClient
 import java.util.UUID
 import javax.inject.Inject
@@ -18,7 +17,7 @@ class SharedPreferencesTokenManager @Inject constructor(
         try {
             val deviceId = getDeviceId()
             val token = accessTokenApiClient.getAccessToken(deviceId)
-            token?.accessToken?.let { setToken(it) }
+            token?.access_token?.let { setToken(it) }
             getStoredToken()
         } catch (e: Exception) {
             logger.logException(e)

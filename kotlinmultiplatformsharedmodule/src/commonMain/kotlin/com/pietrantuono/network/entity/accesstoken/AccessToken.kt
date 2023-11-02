@@ -4,9 +4,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class AccessToken(
-    val accessToken: String? = null,
-    val tokenType: String? = null,
-    val deviceId: String? = null,
-    val expiresIn: Int? = null,
+    val access_token: String? = null,
+    val token_type: String? = null,
+    val device_id: String? = null,
+    val expires_in: Int? = null,
     val scope: String? = null
 )
