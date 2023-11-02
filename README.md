@@ -1,7 +1,8 @@
 # Reddit Demo
 
-## KMM
-Added KMM!
+## KMM (work in progress)
+Added KMM in shared module for networking
+
 
 ## How to run
 This project should build and run as it is (developed using Android Studio Android Studio Giraffe | 2022.3.1 Patch 1).

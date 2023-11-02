@@ -44,7 +44,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":kotlinmultiplatformsharedmodule"))
+    implementation(project(":shared"))
 
     // Retrofit.
     implementation(libs.retrofit2)
