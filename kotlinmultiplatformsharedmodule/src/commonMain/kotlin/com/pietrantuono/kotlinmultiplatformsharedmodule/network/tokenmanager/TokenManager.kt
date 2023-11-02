@@ -4,5 +4,5 @@ interface TokenManager {
 
     fun getStoredToken(): String?
 
-    suspend fun getNewToken(): String?
+    fun getNewToken(): String?
 }

@@ -7,6 +7,8 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.kotlinMultiplatform).apply(false)
+
 }
 
 true // Needed to make the Suppress annotation work for the plugins block

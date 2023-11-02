@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.pietrantuono.persistence.entity.PersistedPostEntity
 
 @Dao
-interface RedditDao {
+interface  RedditDao {
 
     @Insert(entity = PersistedPostEntity::class, onConflict = IGNORE)
     suspend fun insertAll(post: List<PersistedPostEntity>)
