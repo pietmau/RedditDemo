@@ -3,7 +3,6 @@ package com.pietrantuono.network.tokenmanager
 import android.content.SharedPreferences
 import com.pietrantuono.common.Logger
 import com.pietrantuono.kotlinmultiplatformsharedmodule.network.api.accesstoken.AccessTokenApiClientImpl
-import com.pietrantuono.network.api.accesstoken.RetrofitAccessTokenApiClient
 import java.util.UUID
 import javax.inject.Inject
 

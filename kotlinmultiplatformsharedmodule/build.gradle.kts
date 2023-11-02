@@ -3,7 +3,7 @@ plugins {
     alias(libs.plugins.com.android.library)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
+//@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
     targetHierarchy.default()
 
@@ -35,13 +35,10 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
-
-
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(libs.kotlin.test)
             }
         }
         val androidMain by getting {
