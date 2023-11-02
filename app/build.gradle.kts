@@ -55,6 +55,8 @@ android {
 }
 
 dependencies {
+    kapt ("org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.4.2")
+
     implementation(project(":feature:posts"))
     implementation(project(":feature:detail"))
     implementation(project(":core:common"))

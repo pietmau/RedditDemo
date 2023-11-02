@@ -11,7 +11,7 @@ appcompat = "1.6.1"
 
 hilt-android = "2.48"
 hilt-navigation-compose = "1.1.0-beta01"
-hilt-version = "2.44"
+hilt-version = "2.48"
 
 org-jetbrains-kotlin-jvm = "1.8.10"
 retrofit = "2.9.0"
