@@ -4,6 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import com.pietrantuono.kotlinmultiplatformsharedmodule.network.api.accesstoken.AccessTokenApiClientImpl
+import com.pietrantuono.network.api.accesstoken.AccessTokenApiClient
 import com.pietrantuono.network.interceptor.BasicAuthInterceptor
 import com.pietrantuono.network.interceptor.BearerTokenAuthInterceptor
 import com.pietrantuono.network.networkchecker.NetworkChecker
@@ -28,6 +30,9 @@ interface NetworkModule {
     fun bindNetworkChecker(networkCheckerImpl: NetworkCheckerImpl): NetworkChecker
 
     companion object {
+
+        @Provides
+        fun bindAccessTokenApiClient(): AccessTokenApiClient = AccessTokenApiClientImpl()
 
         @Provides
         fun provideConnectivityManager(@ApplicationContext context: Context) =
